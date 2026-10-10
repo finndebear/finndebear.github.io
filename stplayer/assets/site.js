@@ -2,7 +2,7 @@
   'use strict';
   // Keep old, language-specific policy links working.
   if (new URLSearchParams(location.search).has('lang')) {
-    location.replace(`privacy.html${location.search}${location.hash}`);
+    location.replace(`/stplayer/privacy/${location.search}${location.hash}`);
     return;
   }
   const repo = 'finndebear/finndebear.github.io';

@@ -2,7 +2,7 @@
 An Android audiobook player with built-in access to online catalogs, local media, and torrent sources.
 
 ## Installation
-Visit the [STPlayer website](https://finndebear.github.io/) or download the latest `.apk` from the [public releases](https://finndebear.github.io/stplayer/latest) page and install it on your device.
+Visit the [STPlayer website](https://finndebear.github.io/stplayer/) or download the latest `.apk` from the [public releases](https://finndebear.github.io/stplayer/latest) page and install it on your device.
 
 > **Android 8.0 or newer required.**
 > You may need to allow installation from unknown sources in your device settings (*Settings → Apps → Special app access → Install unknown apps*).
@@ -76,7 +76,7 @@ The app does not access your location, contacts, microphone, or camera.
 ## Privacy
 Production builds use Google Firebase Crashlytics for crash diagnostics (not Firebase Analytics or Performance Monitoring), and the app communicates with the audiobook sources and peer-to-peer networks you choose to use. Optional cross-device synchronization sends end-to-end encrypted snapshots through independent public Nostr relays; relay-visible technical metadata is described in the policy.
 
-See the full [Privacy Policy](https://finndebear.github.io/privacy.html).
+See the full [Privacy Policy](https://finndebear.github.io/stplayer/privacy).
 
 ## License
 © 2025–2026 stpork. All rights reserved.
