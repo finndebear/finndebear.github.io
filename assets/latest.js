@@ -10,7 +10,7 @@
     const release = await response.json();
     if (release.draft || release.prerelease || !Array.isArray(release.assets)) throw new Error('No stable release');
     document.getElementById('release-title').textContent = `Version ${release.tag_name} · Android 8.0+`;
-    document.title = `STPlayer ${release.tag_name} — Latest release`;
+    document.title = `Stream Transport Player ${release.tag_name} — Latest release`;
     const fragment = document.createDocumentFragment();
     const formats = {apk: ['Android installer', 'Install on your phone or tablet.'], aab: ['Android App Bundle', 'For app distribution tools.'], zip: ['ZIP archive', 'The archive supplied with this release.']};
     for (const [extension, [title, description]] of Object.entries(formats)) {
