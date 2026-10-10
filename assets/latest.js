@@ -12,7 +12,7 @@
     document.getElementById('release-title').textContent = `Version ${release.tag_name} · Android 8.0+`;
     document.title = `Stream Transport Player ${release.tag_name} — Latest release`;
     const fragment = document.createDocumentFragment();
-    const formats = {apk: ['Android installer', 'Install on your phone or tablet.'], aab: ['Android App Bundle', 'For app distribution tools.'], zip: ['ZIP archive', 'The archive supplied with this release.']};
+    const formats = {apk: ['Android installer', 'Install on your phone or tablet.'], zip: ['ZIP archive', 'The archive supplied with this release.']};
     for (const [extension, [title, description]] of Object.entries(formats)) {
       for (const asset of release.assets.filter(item => item.name.toLowerCase().endsWith(`.${extension}`))) {
         const url = new URL(asset.browser_download_url);

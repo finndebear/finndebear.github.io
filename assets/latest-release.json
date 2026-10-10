@@ -6,11 +6,6 @@
   "prerelease": false,
   "assets": [
     {
-      "name": "stplayer-0.0.95.aab",
-      "size": 37226782,
-      "browser_download_url": "https://github.com/finndebear/finndebear.github.io/releases/download/0.0.95/stplayer-0.0.95.aab"
-    },
-    {
       "name": "stplayer-0.0.95.apk",
       "size": 62900299,
       "browser_download_url": "https://github.com/finndebear/finndebear.github.io/releases/download/0.0.95/stplayer-0.0.95.apk"
