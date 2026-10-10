@@ -2,7 +2,7 @@
 An Android audiobook player with built-in access to online catalogs, local media, and torrent sources.
 
 ## Installation
-Visit the [STPlayer website](https://finndebear.github.io/) or download the latest `.apk` from the [public releases](https://github.com/finndebear/finndebear.github.io/releases) page and install it on your device.
+Visit the [STPlayer website](https://finndebear.github.io/) or download the latest `.apk` from the [public releases](https://finndebear.github.io/stplayer/latest) page and install it on your device.
 
 > **Android 8.0 or newer required.**
 > You may need to allow installation from unknown sources in your device settings (*Settings → Apps → Special app access → Install unknown apps*).
