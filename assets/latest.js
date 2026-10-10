@@ -3,8 +3,8 @@
   const repo = 'finndebear/finndebear.github.io';
   const files = document.getElementById('download-files');
   try {
-    const response = await fetch(`https://api.github.com/repos/${repo}/releases/latest`, {
-      signal: AbortSignal.timeout(8000), headers: {Accept: 'application/vnd.github+json'}
+    const response = await fetch('../../assets/latest-release.json', {
+      signal: AbortSignal.timeout(8000), cache: 'no-cache'
     });
     if (!response.ok) throw new Error('Release unavailable');
     const release = await response.json();

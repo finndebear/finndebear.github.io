@@ -8,8 +8,8 @@
   const repo = 'finndebear/finndebear.github.io';
   async function latest() {
     try {
-      const response = await fetch(`https://api.github.com/repos/${repo}/releases/latest`, {
-        signal: AbortSignal.timeout(8000), headers: {Accept: 'application/vnd.github+json'}
+      const response = await fetch('assets/latest-release.json', {
+        signal: AbortSignal.timeout(8000), cache: 'no-cache'
       });
       if (!response.ok) return;
       const release = await response.json();

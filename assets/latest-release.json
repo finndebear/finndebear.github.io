@@ -1,0 +1,24 @@
+{
+  "tag_name": "0.0.95",
+  "name": "STPlayer Release v0.0.95",
+  "body": "# Release notes — 0.0.95\n\nRelease date: 09-Oct-2026\n\n## English\n\n- Protect saved progress and bookmarks during sync when local book folders are missing or inaccessible.\n- Keep favourite and completion status syncing even when some book files are unavailable.\n- Keep progress, bookmarks and favourite status consistent across entries for the same online book.\n- Prevent duplicate favourites and repeated history entries for the same online book, and stop library scans from inflating play counts.\n\n### Behavior changes\n\n- Updates that need access to unavailable book files remain pending for later recovery, while other library changes can sync.\n- Removing an online book from favourites or history applies to all matching entries for that book.\n\n### BREAKING CHANGES\n\nNone\n\n### Risks / What to test\n\n- Sync between two devices while a book folder is missing or its access permission is revoked; check that progress and bookmarks are preserved.\n- Restore folder access and sync again; check that pending updates are applied.\n- Change favourite and completion status while book files are unavailable; confirm the changes reach the other device.\n- Check duplicate online-book entries: progress stays consistent, removal affects all matching entries, and repeated scans do not increase play counts.\n\n## Русский\n\n- Сохранённая позиция прослушивания и закладки защищены при синхронизации, если локальные папки с книгами отсутствуют или недоступны.\n- Статусы «Избранное» и «Прослушано» продолжают синхронизироваться, даже когда файлы некоторых книг недоступны.\n- Позиция прослушивания, закладки и статус «Избранное» согласованы между записями одной и той же онлайн-книги.\n- Устранены дубликаты одной онлайн-книги в избранном и истории, а повторное сканирование библиотеки больше не увеличивает счётчик воспроизведений.\n\n### Изменения в работе приложения\n\n- Обновления, которым нужен доступ к недоступным файлам книги, остаются в ожидании восстановления доступа. Остальные изменения библиотеки могут синхронизироваться.\n- Удаление онлайн-книги из избранного или истории применяется ко всем соответствующим записям этой книги.\n\n### КРИТИЧЕСКИЕ ИЗМЕНЕНИЯ\n\nНет\n\n### Риски / Что проверить\n\n- Выполните синхронизацию между двумя устройствами, когда папка книги отсутствует или разрешение на доступ отозвано; убедитесь, что позиция прослушивания и закладки сохранены.\n- Восстановите доступ к папке и повторите синхронизацию; проверьте, что ожидающие обновления применены.\n- Измените статусы «Избранное» и «Прослушано», пока файлы книги недоступны; убедитесь, что изменения появились на другом устройстве.\n- Проверьте дублирующиеся записи онлайн-книги: позиция прослушивания согласована, удаление затрагивает все соответствующие записи, а повторное сканирование не увеличивает счётчик воспроизведений.",
+  "draft": false,
+  "prerelease": false,
+  "assets": [
+    {
+      "name": "stplayer-0.0.95.aab",
+      "size": 37226782,
+      "browser_download_url": "https://github.com/finndebear/finndebear.github.io/releases/download/0.0.95/stplayer-0.0.95.aab"
+    },
+    {
+      "name": "stplayer-0.0.95.apk",
+      "size": 62900299,
+      "browser_download_url": "https://github.com/finndebear/finndebear.github.io/releases/download/0.0.95/stplayer-0.0.95.apk"
+    },
+    {
+      "name": "stplayer-0.0.95.zip",
+      "size": 26805742,
+      "browser_download_url": "https://github.com/finndebear/finndebear.github.io/releases/download/0.0.95/stplayer-0.0.95.zip"
+    }
+  ]
+}

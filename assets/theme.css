@@ -1,0 +1,66 @@
+:root {
+  color-scheme: dark;
+  --bg: #071426;
+  --surface: #0c1d32;
+  --text: #f2f6fc;
+  --muted: #a2b3c9;
+  --copy: #b3c2d5;
+  --faint: #8194ad;
+  --line: #23344b;
+  --border-strong: #3b536f;
+  --border-download: #2d4963;
+  --blue: #52c6ff;
+  --green: #48d59a;
+  --yellow: #ffbf32;
+  --red: #ff7768;
+  --button-bg: #52c6ff;
+  --button-text: #061a2b;
+  --button-hover: #94ddff;
+  --secondary-bg: #1b3049;
+  --secondary-hover: #294560;
+  --library-bg: #09192c;
+  --glow: #0d395d;
+  --glow-soft: #0a244040;
+  --ring: #29466580;
+  --outer-ring: #233e5b60;
+  --warm-copy: #e3d9be;
+  --progress-track: #2b4351;
+}
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f7fafc;
+  --surface: #ffffff;
+  --text: #142b42;
+  --muted: #52687d;
+  --copy: #475f75;
+  --faint: #5c7285;
+  --line: #d8e3ec;
+  --border-strong: #acbdcc;
+  --border-download: #bfd5e4;
+  --blue: #0074b5;
+  --green: #00854d;
+  --yellow: #a56b00;
+  --red: #c83e31;
+  --button-bg: #0077b3;
+  --button-text: #ffffff;
+  --button-hover: #006ba4;
+  --secondary-bg: #edf4f8;
+  --secondary-hover: #dcecf6;
+  --library-bg: #eff5f9;
+  --glow: #d2ecfc;
+  --glow-soft: #e1f1fa80;
+  --ring: #bfd5e5;
+  --outer-ring: #d4e3ed;
+  --warm-copy: #785317;
+  --progress-track: #c8dfd4;
+}
+.header-actions { display: flex; align-items: center; gap: 22px; }
+.theme-toggle { display: inline-grid; place-items: center; width: 40px; height: 40px; padding: 0; flex: 0 0 40px; border: 1px solid var(--border-strong); border-radius: 50%; background: transparent; color: var(--text); cursor: pointer; }
+.theme-toggle:hover { background: var(--secondary-bg); color: var(--blue); }
+.theme-toggle:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+.theme-toggle svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.theme-toggle .moon-icon, html[data-theme="light"] .theme-toggle .sun-icon { display: none; }
+html[data-theme="light"] .theme-toggle .moon-icon { display: block; }
+@media (max-width: 760px) { .header-actions { gap: 15px; } .theme-toggle { width: 36px; height: 36px; flex-basis: 36px; } }
+@media (max-width: 380px) { .header-actions { gap: 10px; } }
+@media print { .theme-toggle { display: none; } }
