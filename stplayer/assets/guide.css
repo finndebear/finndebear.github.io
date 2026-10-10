@@ -1,0 +1,35 @@
+.guide { padding-block: 54px 92px; }
+.guide-hero { max-width: 760px; padding-bottom: 48px; border-bottom: 1px solid var(--line); }
+.guide-hero h1 { font-size: clamp(44px, 6vw, 72px); line-height: 1.02; letter-spacing: -.05em; margin-bottom: 24px; }
+.guide-hero h1 span { color: var(--blue); }
+.guide-lead { color: var(--copy); font-size: clamp(17px, 2vw, 21px); line-height: 1.65; }
+.guide-hero .hero-actions { margin-top: 27px; }
+.guide-note { margin-top: 24px; max-width: 680px; color: var(--muted); font-size: 13px; }
+.guide-section { padding-top: 60px; }
+.guide-section > h2 { max-width: 760px; margin-bottom: 16px; }
+.guide-section > p:not(.eyebrow) { max-width: 760px; color: var(--copy); font-size: 15px; }
+.guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 29px; }
+.guide-card { padding: 26px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.guide-card .step { display: block; color: var(--blue); font-size: 11px; letter-spacing: .12em; font-weight: 700; margin-bottom: 22px; }
+.guide-card h3 { font-size: 21px; margin-bottom: 14px; }
+.guide-card p { color: var(--copy); font-size: 14px; }
+.guide-sources { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 30px; }
+.guide-source { border-top: 1px solid var(--line); padding-top: 21px; }
+.guide-source h3 { font-size: 21px; margin-bottom: 10px; }
+.guide-source p { color: var(--copy); font-size: 14px; }
+.guide-source a, .guide-faq a { color: var(--blue); }
+.guide-source .source-link { display: inline-block; margin-top: 12px; font-size: 13px; }
+.guide-faq { max-width: 760px; margin-top: 25px; }
+.guide-faq details { padding-inline: 2px; }
+.guide-faq summary { font-size: 15px; }
+.guide-faq details > p { font-size: 14px; line-height: 1.7; }
+.guide-end { margin-top: 62px; padding: 34px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border-download); }
+.guide-end h2 { font-size: clamp(27px, 3vw, 37px); margin-bottom: 12px; }
+.guide-end p { color: var(--copy); max-width: 660px; margin-bottom: 23px; }
+@media (max-width: 760px) {
+  .guide { padding-block: 40px 60px; }
+  .guide-section { padding-top: 48px; }
+  .guide-grid, .guide-sources { grid-template-columns: 1fr; }
+  .guide-end { padding: 26px; }
+  .guide-header nav a[href*="/privacy/"] { display: none; }
+}
