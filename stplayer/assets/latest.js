@@ -2,17 +2,23 @@
   'use strict';
   const repo = 'finndebear/finndebear.github.io';
   const files = document.getElementById('download-files');
+  const russian = document.documentElement.lang === 'ru';
   try {
-    const response = await fetch('../assets/latest-release.json', {
+    const response = await fetch(new URL('latest-release.json', document.currentScript.src), {
       signal: AbortSignal.timeout(8000), cache: 'no-cache'
     });
     if (!response.ok) throw new Error('Release unavailable');
     const release = await response.json();
     if (release.draft || release.prerelease || !Array.isArray(release.assets)) throw new Error('No stable release');
-    document.getElementById('release-title').textContent = `Version ${release.tag_name} · Android 8.0+`;
-    document.title = `Stream Transport Player ${release.tag_name} — Latest release`;
+    document.getElementById('release-title').textContent = russian
+      ? `Версия ${release.tag_name} · Android 8.0+` : `Version ${release.tag_name} · Android 8.0+`;
+    document.title = russian
+      ? `Скачать STPlayer ${release.tag_name}: APK и ZIP | Android`
+      : `Download STPlayer ${release.tag_name} APK & ZIP | Android`;
     const fragment = document.createDocumentFragment();
-    const formats = {apk: ['Android installer', 'Install on your phone or tablet.'], zip: ['ZIP archive', 'The archive supplied with this release.']};
+    const formats = russian
+      ? {apk: ['Установочный файл Android', 'Установите на телефон или планшет.'], zip: ['ZIP-архив', 'Архив из этого релиза.']}
+      : {apk: ['Android installer', 'Install on your phone or tablet.'], zip: ['ZIP archive', 'The archive supplied with this release.']};
     for (const [extension, [title, description]] of Object.entries(formats)) {
       for (const asset of release.assets.filter(item => item.name.toLowerCase().endsWith(`.${extension}`))) {
         const url = new URL(asset.browser_download_url);
@@ -29,7 +35,7 @@
         const button = document.createElement('a');
         button.className = 'button primary';
         button.href = url.href;
-        button.textContent = `↓ Download ${extension.toUpperCase()}`;
+        button.textContent = `${russian ? '↓ Скачать' : '↓ Download'} ${extension.toUpperCase()}`;
         const size = document.createElement('p');
         size.className = 'small';
         size.textContent = `${asset.name} · ${(asset.size / 1048576).toFixed(1)} MB`;
@@ -42,7 +48,21 @@
     // Render release text as DOM text, never as remote HTML.
     const notes = document.createDocumentFragment();
     let list;
-    for (const line of (release.body || 'No release notes were provided.').split('\n')) {
+    const body = release.body || (russian ? 'Описание версии не опубликовано.' : 'No release notes were provided.');
+    const allLines = body.split('\n');
+    const languageHeading = /^##\s+(English|Русский)\s*$/i;
+    const preferredLanguage = russian ? 'русский' : 'english';
+    const sectionStart = allLines.findIndex(line => languageHeading.exec(line)?.[1].toLowerCase() === preferredLanguage);
+    let noteLines = allLines;
+    if (sectionStart >= 0) {
+      const nextSection = allLines.findIndex((line, index) => index > sectionStart && /^##\s+/.test(line));
+      noteLines = allLines.slice(sectionStart + 1, nextSection < 0 ? undefined : nextSection);
+    } else if (allLines.some(line => languageHeading.test(line))) {
+      noteLines = [russian
+        ? 'Заметки на русском языке для этой версии пока недоступны.'
+        : 'English release notes are not available for this version.'];
+    }
+    for (const line of noteLines) {
       const bullet = line.match(/^\s*[-*]\s+(.+)/);
       if (bullet) {
         if (!list) { list = document.createElement('ul'); notes.append(list); }
@@ -62,7 +82,9 @@
   } catch {
     files.replaceChildren();
     const message = document.createElement('p');
-    message.textContent = 'Download details could not be loaded. Use the GitHub link below to get the latest files.';
+    message.textContent = russian
+      ? 'Не удалось загрузить сведения о файлах. Откройте ссылку на GitHub ниже.'
+      : 'Download details could not be loaded. Use the GitHub link below to get the latest files.';
     files.append(message);
   }
 })();

@@ -23,6 +23,8 @@ p { margin-bottom: 0; }
 .brand { display: inline-flex; align-items: center; text-decoration: none; font-size: 23px; line-height: 1; font-weight: 730; letter-spacing: -.8px; }
 .brand img { object-fit: contain; margin-right: 12px; }
 .brand span { color: var(--blue); }
+.language-switch { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; min-height: 32px; font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid var(--border-strong); border-radius: 6px; }
+.language-switch:hover { color: var(--blue); background: var(--secondary-bg); }
 nav { display: flex; align-items: center; gap: 32px; font-size: 13px; }
 nav a, .footer-links a { text-decoration: none; }
 nav a:hover, .footer-links a:hover { color: var(--blue); }
@@ -34,6 +36,7 @@ nav a:hover, .footer-links a:hover { color: var(--blue); }
 .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex: 0 0 6px; }
 .hero { display: grid; grid-template-columns: 1.2fr 1fr; column-gap: 42px; align-items: center; padding-top: 58px; }
 .hero h1 { font-size: clamp(62px, 6.9vw, 94px); font-weight: 700; line-height: .98; letter-spacing: -4.5px; margin: 0 0 28px; }
+.ru-page .hero h1 { font-size: clamp(42px, 5.4vw, 72px); letter-spacing: -3px; }
 .hero h1 span { color: var(--blue); }
 .hero-description { font-size: 17px; line-height: 1.75; color: var(--copy); max-width: 460px; }
 .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 23px; margin-top: 30px; }
@@ -108,6 +111,10 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
 .mode h3 { margin-bottom: 16px; font-size: 24px; }
 .mode p { color: var(--muted); font-size: 14px; }
 .mode .format-list { font-size: 10px; letter-spacing: .5px; color: var(--muted); margin-top: 14px; }
+.device-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 42px; }
+.device-grid > div { border-top: 1px solid var(--line); padding-top: 22px; }
+.device-grid h3 { font-size: 17px; letter-spacing: -.3px; margin-bottom: 8px; }
+.device-grid p { max-width: 440px; color: var(--muted); font-size: 13px; }
 .library-details { margin-top: 36px; }
 .library-details summary { padding-bottom: 0; }
 .detail-columns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 20px; font-size: 13px; color: var(--muted); }
@@ -130,6 +137,8 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
 .site-footer .brand { font-size: 21px; }
 .site-footer > div > p { font-size: 12px; color: var(--copy); margin-top: 14px; }
 .site-footer > div > p span { color: var(--muted); font-size: 11px; }
+.site-footer > div > p a { color: inherit; text-decoration: none; }
+.site-footer > div > p a:hover { color: var(--blue); text-decoration: underline; }
 .footer-links { display: flex; flex-wrap: wrap; gap: 27px; font-size: 12px; padding-top: 10px; }
 /* The permanent release page uses the same visual language. */
 .latest-page { padding-block: 64px 80px; }
@@ -163,6 +172,7 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
   .wrap { width: calc(100% - 64px); }
   .hero { column-gap: 20px; grid-template-columns: 1.2fr 1fr; }
   .hero h1 { font-size: 76px; }
+  .ru-page .hero h1 { font-size: clamp(40px, 5.4vw, 57px); }
   .hero-art { height: 330px; }
   .hero-icon { width: 208px; height: 208px; }
   .ring-inner { width: 260px; height: 260px; }
@@ -182,19 +192,22 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
 }
 @media (max-width: 760px) {
   .wrap { width: calc(100% - 40px); }
-  .site-header { height: 78px; gap: 14px; }
+  .site-header { height: 78px; gap: 8px; }
   .brand { font-size: 21px; }
   .brand img { width: 30px; height: 30px; margin-right: 8px; }
-  nav { gap: 20px; font-size: 12px; }
+  nav { gap: 12px; font-size: 12px; }
+  .header-actions { gap: 8px; }
   .nav-download { display: none; }
   .release-header { height: auto; flex-wrap: wrap; gap: 8px; padding-block: 14px; }
   .release-header .header-actions { display: contents; }
-  .release-header .theme-toggle { order: 1; margin-left: auto; }
+  .release-header .language-switch { order: 1; margin-left: auto; }
+  .release-header .theme-toggle { order: 1; margin-left: 0; }
   .release-header nav { order: 2; width: 100%; }
   .release-header .play-store-link { margin-left: auto; }
   .release-header .play-store-link img { width: 160px; }
   .hero { padding-top: 40px; grid-template-columns: 1fr; }
   .hero h1 { font-size: clamp(58px, 12vw, 80px); letter-spacing: -3px; margin-bottom: 25px; }
+  .ru-page .hero h1 { font-size: clamp(37px, 7vw, 52px); letter-spacing: -2px; }
   .hero .eyebrow { font-size: 9px; letter-spacing: 1.4px; margin-bottom: 25px; }
   .hero-description { font-size: 15px; max-width: 410px; }
   .hero-actions { gap: 16px; margin-top: 24px; }
@@ -230,6 +243,8 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
   .mode-icon { grid-column: 1; grid-row: 1 / 4; width: 28px; height: 28px; }
   .mode h3, .mode p { grid-column: 2; }
   .mode h3 { font-size: 23px; margin-bottom: 12px; }
+  .device-grid { grid-template-columns: 1fr; gap: 18px; margin-top: 34px; }
+  .device-grid > div { padding-top: 18px; }
   .detail-columns { grid-template-columns: 1fr; gap: 16px; }
   .download-panel { grid-template-columns: 1fr; gap: 35px; padding: 27px 23px; }
   .download-copy .eyebrow { font-size: 8px; letter-spacing: 1.1px; }
@@ -248,6 +263,7 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
   .release-install { padding: 20px; }
 }
 @media (max-width: 380px) {
+  .site-header:not(.release-header) nav a[href="#features"] { display: none; }
   .site-header { gap: 8px; }
   .site-header .brand { font-size: 19px; }
   .site-header .brand img { width: 26px; height: 26px; margin-right: 6px; }
@@ -255,6 +271,7 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
   .hero-actions { gap: 10px; }
   .hero-actions .text-link { padding-block: 8px; }
   .hero h1 { font-size: 58px; }
+  .ru-page .hero h1 { font-size: clamp(31px, 9.2vw, 35px); letter-spacing: -1.5px; }
   .hero-meta { font-size: 11px; }
   .feature { padding: 22px; }
   .footer-links { max-width: none; }

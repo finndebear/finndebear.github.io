@@ -1,14 +1,14 @@
 (() => {
   'use strict';
   // Keep old, language-specific policy links working.
-  if (new URLSearchParams(location.search).has('lang')) {
+  if (/\/stplayer\/(?:index\.html)?$/.test(location.pathname) && new URLSearchParams(location.search).has('lang')) {
     location.replace(`/stplayer/privacy/${location.search}${location.hash}`);
     return;
   }
   const repo = 'finndebear/finndebear.github.io';
   async function latest() {
     try {
-      const response = await fetch('assets/latest-release.json', {
+      const response = await fetch(new URL('latest-release.json', document.currentScript.src), {
         signal: AbortSignal.timeout(8000), cache: 'no-cache'
       });
       if (!response.ok) return;

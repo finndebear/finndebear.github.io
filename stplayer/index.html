@@ -4,24 +4,60 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#071426">
-  <title>Stream Transport Player — Audiobooks, your way</title>
-  <meta name="description" content="STPlayer is a free audiobook player for Android. Stream online sources, play local files and listen offline. No ads, account or subscription.">
+  <title>STPlayer — Free Audiobook Player for Android | Online &amp; Offline</title>
+  <meta name="description" content="STPlayer is a free Android audiobook player for online catalogs, your own files and offline listening. Resume books, set a sleep timer and listen without ads or an account.">
   <link rel="canonical" href="https://finndebear.github.io/stplayer/">
-  <meta property="og:title" content="Stream Transport Player">
-  <meta property="og:description" content="Your books. Your pace. A free audiobook player for Android — online, local and offline.">
+  <link rel="alternate" hreflang="en" href="https://finndebear.github.io/stplayer/">
+  <link rel="alternate" hreflang="ru" href="https://finndebear.github.io/stplayer/ru/">
+  <link rel="alternate" hreflang="x-default" href="https://finndebear.github.io/stplayer/">
+  <meta property="og:site_name" content="STPlayer">
+  <meta property="og:title" content="STPlayer — Free Audiobook Player for Android">
+  <meta property="og:description" content="Stream audiobooks from supported online catalogs, play your own files and listen offline. Free, with no ads or account.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://finndebear.github.io/stplayer/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:image" content="https://finndebear.github.io/stplayer/assets/stplayer-icon.png">
+  <meta property="og:image:alt" content="STPlayer app icon">
+  <meta name="twitter:card" content="summary">
   <link rel="icon" href="assets/stplayer-icon.png?v=f8a94f602c7b" type="image/png">
-  <script src="assets/theme.js?v=8a6a6c525596"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "STPlayer",
+        "alternateName": "Stream Transport Player",
+        "url": "https://finndebear.github.io/stplayer/"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://finndebear.github.io/stplayer/#app",
+        "name": "Stream Transport Player",
+        "alternateName": "STPlayer",
+        "description": "Free Android audiobook player for online catalogs, local files and offline listening.",
+        "url": "https://finndebear.github.io/stplayer/",
+        "image": "https://finndebear.github.io/stplayer/assets/stplayer-icon.png",
+        "operatingSystem": "Android 8.0 or later",
+        "applicationCategory": "MultimediaApplication",
+        "author": {"@type": "Person", "name": "Finn de Bear"},
+        "sameAs": "https://play.google.com/store/apps/details?id=com.st.player",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD", "url": "https://play.google.com/store/apps/details?id=com.st.player"}
+      }
+    ]
+  }
+  </script>
+  <script src="assets/theme.js?v=28e17e340d14"></script>
 <link rel="stylesheet" href="assets/theme.css?v=2507d5e76c08">
-<link rel="stylesheet" href="assets/site.css?v=0c421887756e">
-  <script src="assets/site.js?v=3a7734c58270" defer></script>
+<link rel="stylesheet" href="assets/site.css?v=c643d792f538">
+  <script src="assets/site.js?v=aa6f732d8e78" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header wrap">
   <a class="brand" href="./" aria-label="STPlayer home"><img src="assets/stplayer-icon.png?v=f8a94f602c7b" width="36" height="36" alt="">ST<span>Player</span></a>
-  <div class="header-actions"><nav aria-label="Main navigation"><a href="#features">Features</a><a href="/stplayer/privacy">Privacy</a><a class="nav-download" href="latest/">Get STPlayer <span aria-hidden="true">↗</span></a></nav><button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme" title="Switch to light theme"><svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A9 9 0 0 1 10 3a9 9 0 1 0 10.5 11Z"/></svg></button></div>
+  <div class="header-actions"><nav aria-label="Main navigation"><a href="#features">Features</a><a href="/stplayer/privacy">Privacy</a><a class="nav-download" href="latest/">Get STPlayer <span aria-hidden="true">↗</span></a></nav><a class="language-switch" href="ru/" lang="ru" hreflang="ru" aria-label="Русская версия">RU</a><button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme" title="Switch to light theme"><svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A9 9 0 0 1 10 3a9 9 0 1 0 10.5 11Z"/></svg></button></div>
 </header>
 <main id="main">
   <section class="hero wrap" aria-labelledby="hero-title">
@@ -67,6 +103,10 @@
       <article class="mode local-mode"><svg class="mode-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 25V7h10l3 4h13v14Z"/></svg><h3>Play local.</h3><p>Choose your folders using Android’s file picker. Your audio files, with no store lock-in and no DRM.</p><p class="format-list">MP3 · M4A · FLAC · AAC · OGG · WAV</p></article>
       <article class="mode offline-mode"><svg class="mode-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3v18m-7-7 7 7 7-7M4 22v7h24v-7"/></svg><h3>Take offline.</h3><p>Save books before you head out. Downloads can resume after an interruption, ready for your next journey.</p></article>
     </div>
+    <div class="device-grid" aria-label="More ways to listen">
+      <div><h3>Android TV</h3><p>Browse your library, open books and control playback with a TV remote or connected mouse.</p></div>
+      <div><h3>Android Auto</h3><p>Browse sources, favorites and history in your car. Search and use playback controls through Android Auto.</p></div>
+    </div>
     <div class="library-details"><details><summary>Small conveniences. Every day.</summary><div class="detail-columns"><p><strong>Find it faster.</strong> Keep favorites and listening history close. Search by typing or use your device’s speech recognizer to dictate and submit a query; voice availability depends on the device.</p><p><strong>Keep your phone in your pocket.</strong> Listen in the background and use Bluetooth, headset or lock-screen controls. Temporary connection failures trigger retries; pressing pause or stop keeps playback stopped when the connection returns.</p><p><strong>Downloads that check their work.</strong> Resumed HTTP downloads verify that a partial track still matches its source. If that cannot be confirmed, the affected track starts again. Catalog details, reviews and their language depend on each source.</p></div></details></div>
   </div></section>
   <section class="section wrap download-section" id="download" aria-labelledby="download-title">
@@ -74,6 +114,6 @@
     <div class="good-to-know"><details><summary>How do I update?</summary><p>Install the latest APK over your current version. You do not need to uninstall the app first.</p></details><details><summary>What about privacy?</summary><p>No account and no ads. Your library, history and settings are stored on your device. Production builds send diagnostic crash reports through Firebase Crashlytics. Online sources receive your requests. See the <a href="/stplayer/privacy">Privacy Policy</a> for full details, including optional synchronization.</p></details><details><summary>Are audiobooks included?</summary><p>STPlayer is a player, not an audiobook store. Bring your own files or listen through supported online sources. Content availability and terms depend on the source.</p></details></div>
   </section>
 </main>
-<footer class="site-footer wrap"><div><a class="brand" href="./"><img src="assets/stplayer-icon.png?v=f8a94f602c7b" width="32" height="32" alt="">ST<span>Player</span></a><p>Stream Transport Player<br><span>By Finn de Bear</span></p></div><div class="footer-links"><a href="latest/">Latest release</a><a href="/stplayer/privacy">Privacy Policy</a><a href="mailto:finndebear@gmail.com">Contact</a></div></footer>
+<footer class="site-footer wrap"><div><a class="brand" href="./"><img src="assets/stplayer-icon.png?v=f8a94f602c7b" width="32" height="32" alt="">ST<span>Player</span></a><p>Stream Transport Player<br><span><a href="mailto:finndebear@gmail.com">By Finn de Bear</a></span></p></div><div class="footer-links"><a href="latest/">Latest release</a><a href="/stplayer/privacy">Privacy Policy</a><a href="mailto:finndebear@gmail.com">Contact</a></div></footer>
 </body>
 </html>

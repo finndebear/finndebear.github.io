@@ -6,6 +6,8 @@
   "index.html",
   "privacy.html",
   "privacy/index.html",
+  "robots.txt",
+  "sitemap.xml",
   "stplayer/README.txt",
   "stplayer/assets/google-play-badge.png",
   "stplayer/assets/latest-release.json",
@@ -17,5 +19,7 @@
   "stplayer/assets/theme.js",
   "stplayer/index.html",
   "stplayer/latest/index.html",
-  "stplayer/privacy/index.html"
+  "stplayer/privacy/index.html",
+  "stplayer/ru/index.html",
+  "stplayer/ru/latest/index.html"
 ]
