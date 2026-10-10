@@ -28,6 +28,8 @@ nav a, .footer-links a { text-decoration: none; }
 nav a:hover, .footer-links a:hover { color: var(--blue); }
 .nav-download { padding: 10px 16px; border: 1px solid var(--border-strong); border-radius: 6px; }
 .nav-download span { margin-left: 20px; color: var(--blue); }
+.play-store-link { display: inline-flex; flex-shrink: 0; border-radius: 6px; }
+.play-store-link img { display: block; width: 180px; height: auto; }
 .eyebrow { display: flex; align-items: center; gap: 9px; font-size: 10px; font-weight: 650; letter-spacing: 1.8px; color: var(--muted); margin: 0 0 23px; }
 .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex: 0 0 6px; }
 .hero { display: grid; grid-template-columns: 1.2fr 1fr; column-gap: 42px; align-items: center; padding-top: 58px; }
@@ -186,6 +188,12 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
   .brand img { width: 30px; height: 30px; margin-right: 8px; }
   nav { gap: 20px; font-size: 12px; }
   .nav-download { display: none; }
+  .release-header { height: auto; flex-wrap: wrap; gap: 8px; padding-block: 14px; }
+  .release-header .header-actions { display: contents; }
+  .release-header .theme-toggle { order: 1; margin-left: auto; }
+  .release-header nav { order: 2; width: 100%; }
+  .release-header .play-store-link { margin-left: auto; }
+  .release-header .play-store-link img { width: 160px; }
   .hero { padding-top: 40px; grid-template-columns: 1fr; }
   .hero h1 { font-size: clamp(58px, 12vw, 80px); letter-spacing: -3px; margin-bottom: 25px; }
   .hero .eyebrow { font-size: 9px; letter-spacing: 1.4px; margin-bottom: 25px; }
