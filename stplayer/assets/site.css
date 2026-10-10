@@ -37,9 +37,10 @@ nav a:hover, .footer-links a:hover { color: var(--blue); }
 .hero { display: grid; grid-template-columns: 1.2fr 1fr; column-gap: 42px; align-items: center; padding-top: 58px; }
 .ru-page .hero { grid-template-columns: 1.4fr .8fr; }
 .hero h1 { font-size: clamp(62px, 6.9vw, 94px); font-weight: 700; line-height: .98; letter-spacing: -4.5px; margin: 0 0 28px; }
-.ru-page .hero h1 { font-size: clamp(46px, 6.25vw, 84px); letter-spacing: -4px; }
+.ru-page .hero h1 { letter-spacing: -4px; }
 .hero h1 span { color: var(--blue); }
 .hero-description { font-size: 17px; line-height: 1.75; color: var(--copy); max-width: 460px; }
+.ru-page .hero-description { max-width: 560px; }
 .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 23px; margin-top: 30px; }
 .button { display: inline-flex; justify-content: center; align-items: center; gap: 10px; padding: 14px 21px; border-radius: 6px; min-height: 50px; font-size: 14px; font-weight: 650; text-decoration: none; line-height: 1.5; }
 .primary { background: var(--button-bg); color: var(--button-text); }
@@ -173,8 +174,7 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
   .wrap { width: calc(100% - 64px); }
   .hero { column-gap: 20px; grid-template-columns: 1.2fr 1fr; }
   .ru-page .hero { grid-template-columns: 1.4fr .8fr; }
-  .hero h1 { font-size: 76px; }
-  .ru-page .hero h1 { font-size: clamp(46px, 6.5vw, 70px); }
+  .hero h1 { font-size: clamp(56px, 7.4vw, 76px); }
   .hero-art { height: 330px; }
   .hero-icon { width: 208px; height: 208px; }
   .ring-inner { width: 260px; height: 260px; }
@@ -209,10 +209,10 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
   .release-header .play-store-link img { width: 160px; }
   .hero { padding-top: 40px; grid-template-columns: 1fr; }
   .ru-page .hero { grid-template-columns: 1fr; }
-  .hero h1 { font-size: clamp(58px, 12vw, 80px); letter-spacing: -3px; margin-bottom: 25px; }
-  .ru-page .hero h1 { font-size: clamp(37px, 7vw, 52px); letter-spacing: -2px; }
+  .hero h1 { font-size: clamp(43px, 7.4vw, 76px); letter-spacing: -3px; margin-bottom: 25px; }
+  .ru-page .hero h1 { letter-spacing: -2px; }
   .hero .eyebrow { font-size: 9px; letter-spacing: 1.4px; margin-bottom: 25px; }
-  .hero-description { font-size: 15px; max-width: 410px; }
+  .hero-description, .ru-page .hero-description { font-size: 15px; max-width: 410px; }
   .hero-actions { gap: 16px; margin-top: 24px; }
   .button { font-size: 13px; padding: 14px 17px; }
   .hero-actions .text-link { font-size: 12px; gap: 7px; }
@@ -275,8 +275,8 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
   nav { gap: 13px; font-size: 11px; }
   .hero-actions { gap: 10px; }
   .hero-actions .text-link { padding-block: 8px; }
-  .hero h1 { font-size: 58px; }
-  .ru-page .hero h1 { font-size: clamp(31px, 9.2vw, 35px); letter-spacing: -1.5px; }
+  .hero h1 { font-size: 43px; }
+  .ru-page .hero h1 { letter-spacing: -1.5px; }
   .hero-meta { font-size: 11px; }
   .feature { padding: 22px; }
   .footer-links { max-width: none; }
