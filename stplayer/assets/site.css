@@ -35,8 +35,9 @@ nav a:hover, .footer-links a:hover { color: var(--blue); }
 .eyebrow { display: flex; align-items: center; gap: 9px; font-size: 10px; font-weight: 650; letter-spacing: 1.8px; color: var(--muted); margin: 0 0 23px; }
 .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex: 0 0 6px; }
 .hero { display: grid; grid-template-columns: 1.2fr 1fr; column-gap: 42px; align-items: center; padding-top: 58px; }
+.ru-page .hero { grid-template-columns: 1.4fr .8fr; }
 .hero h1 { font-size: clamp(62px, 6.9vw, 94px); font-weight: 700; line-height: .98; letter-spacing: -4.5px; margin: 0 0 28px; }
-.ru-page .hero h1 { font-size: clamp(42px, 5.4vw, 72px); letter-spacing: -3px; }
+.ru-page .hero h1 { font-size: clamp(46px, 6.25vw, 84px); letter-spacing: -4px; }
 .hero h1 span { color: var(--blue); }
 .hero-description { font-size: 17px; line-height: 1.75; color: var(--copy); max-width: 460px; }
 .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 23px; margin-top: 30px; }
@@ -171,8 +172,9 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
 @media (max-width: 1050px) {
   .wrap { width: calc(100% - 64px); }
   .hero { column-gap: 20px; grid-template-columns: 1.2fr 1fr; }
+  .ru-page .hero { grid-template-columns: 1.4fr .8fr; }
   .hero h1 { font-size: 76px; }
-  .ru-page .hero h1 { font-size: clamp(40px, 5.4vw, 57px); }
+  .ru-page .hero h1 { font-size: clamp(46px, 6.5vw, 70px); }
   .hero-art { height: 330px; }
   .hero-icon { width: 208px; height: 208px; }
   .ring-inner { width: 260px; height: 260px; }
@@ -206,6 +208,7 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
   .release-header .play-store-link { margin-left: auto; }
   .release-header .play-store-link img { width: 160px; }
   .hero { padding-top: 40px; grid-template-columns: 1fr; }
+  .ru-page .hero { grid-template-columns: 1fr; }
   .hero h1 { font-size: clamp(58px, 12vw, 80px); letter-spacing: -3px; margin-bottom: 25px; }
   .ru-page .hero h1 { font-size: clamp(37px, 7vw, 52px); letter-spacing: -2px; }
   .hero .eyebrow { font-size: 9px; letter-spacing: 1.4px; margin-bottom: 25px; }
@@ -262,8 +265,10 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
   .release-download-card h2 { margin-top: 16px; }
   .release-install { padding: 20px; }
 }
-@media (max-width: 380px) {
+@media (max-width: 420px) {
   .site-header:not(.release-header) nav a[href="#features"] { display: none; }
+}
+@media (max-width: 380px) {
   .site-header { gap: 8px; }
   .site-header .brand { font-size: 19px; }
   .site-header .brand img { width: 26px; height: 26px; margin-right: 6px; }
