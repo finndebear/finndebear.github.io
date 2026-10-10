@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const repo = 'finndebear/stplayer';
+  const repo = 'finndebear/finndebear.github.io';
   const base = `https://github.com/${repo}`;
   const api = `https://api.github.com/repos/${repo}`;
   const releaseURL = tag => `${base}/releases/tag/${encodeURIComponent(tag)}`;
@@ -15,10 +15,11 @@
     if (!response.ok) throw new Error('Release metadata unavailable');
     return response.json();
   }
+  const latestRelease = get('/releases/latest').catch(() => null);
   async function latest() {
     try {
-      const release = await get('/releases/latest');
-      if (release.draft || release.prerelease || !Array.isArray(release.assets)) return;
+      const release = await latestRelease;
+      if (!release || release.draft || release.prerelease || !Array.isArray(release.assets)) return;
       const apk = release.assets.find(asset => /\.apk$/i.test(asset.name) && safeAsset(asset));
       if (!apk) return;
       document.getElementById('apk-download').href = apk.browser_download_url;
@@ -28,8 +29,10 @@
   }
   async function history() {
     try {
-      const releases = await get('/releases?per_page=10');
-      const published = releases.filter(item => !item.draft && !item.prerelease).slice(0, 3);
+      const [releases, current] = await Promise.all([get('/releases?per_page=100'), latestRelease]);
+      const stable = releases.filter(item => !item.draft && !item.prerelease && item.tag_name !== current?.tag_name);
+      stable.sort((a, b) => b.tag_name.localeCompare(a.tag_name, 'en', {numeric: true}));
+      const published = (current ? [current, ...stable] : stable).slice(0, 3);
       if (!published.length) return;
       const fragment = document.createDocumentFragment();
       for (const release of published) {
@@ -42,10 +45,9 @@
         const name = document.createElement('span');
         name.className = 'release-name';
         name.textContent = `${release.name || 'Release notes'} ↗`;
-        const date = document.createElement('time');
+        const date = document.createElement('span');
         date.className = 'release-date';
-        date.dateTime = release.published_at;
-        date.textContent = new Date(release.published_at).toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year: 'numeric'});
+        date.textContent = release.tag_name === current?.tag_name ? 'Latest version' : 'View release notes';
         link.append(version, name, date);
         fragment.append(link);
       }
