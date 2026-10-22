@@ -141,6 +141,24 @@ class LatestReleaseBrowserTest(unittest.TestCase):
         self.assertGreater(page.locator('#release-notes li').count(), 0)
         self.assertTrue(page.locator('#release-fallback a').is_visible())
 
+    def test_homepage_illustration_has_equal_dimensions_in_both_languages(self):
+        for width in (320, 390, 768, 900, 1024, 1050, 1051, 1280, 1440):
+            dimensions = []
+            for path in ('/stplayer/', '/stplayer/ru/'):
+                with self.subTest(path=path, width=width):
+                    page = self.open(path, width=width)
+                    dimensions.append(page.locator('.hero-art').evaluate('''art =>
+                        [art, ...art.querySelectorAll('.hero-icon, .soundwave, .sound-ring')]
+                            .map(element => {
+                                const bounds = element.getBoundingClientRect();
+                                return [bounds.width, bounds.height];
+                            })'''))
+                    self.assertGreater(page.locator('.hero-icon').evaluate('image => image.naturalWidth'), 0)
+                    self.assertFalse(page.evaluate('document.documentElement.scrollWidth > innerWidth'))
+                    page.close()
+            with self.subTest(width=width):
+                self.assertEqual(dimensions[0], dimensions[1])
+
     def test_store_badges_are_localized_svg_and_rustore_follows_google_only_in_russian(self):
         for language, path in (('en', '/stplayer/latest/'), ('ru', '/stplayer/ru/latest/')):
             for width in (320, 390, 1280):
