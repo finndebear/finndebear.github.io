@@ -51,4 +51,4 @@ Russian download page.
 
 ## License
 
-© 2025–2026 stpork. Personal use only; see [LICENSE](LICENSE).
+© 2025–2026 Finn de Bear. Personal use only; see [LICENSE](LICENSE).
