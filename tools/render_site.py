@@ -32,6 +32,7 @@ COPY = {
         "more": "More release details",
         "no_notes": "No release notes were provided.",
         "missing_translation": "English release notes are not available for this version.",
+        "source": "Source: GitHub release {version}",
     },
     "ru": {
         "version": "Версия {version} · Android 8.0+",
@@ -43,6 +44,7 @@ COPY = {
         "more": "Подробности версии",
         "no_notes": "Описание версии не опубликовано.",
         "missing_translation": "Заметки на русском языке для этой версии пока недоступны.",
+        "source": "Источник: релиз {version} на GitHub",
     },
 }
 
@@ -135,15 +137,19 @@ def render_notes(release, lang):
     primary = render_markdown(lines[:first_heading])
     extra = render_markdown(lines[first_heading:])
     if primary and extra:
-        return primary + '\n<details class="release-details"><summary>' + COPY[lang]["more"] + "</summary>\n" + extra + "\n</details>"
-    return primary or extra or "<p>" + COPY[lang]["no_notes"] + "</p>"
+        notes = primary + '\n<details class="release-details"><summary>' + COPY[lang]["more"] + "</summary>\n" + extra + "\n</details>"
+    else:
+        notes = primary or extra or "<p>" + COPY[lang]["no_notes"] + "</p>"
+    source = html.escape(COPY[lang]["source"].format(version=release["tag_name"]))
+    url = "https://github.com/finndebear/finndebear.github.io/releases/tag/" + release["tag_name"]
+    return notes + '\n<p class="small release-source"><a href="' + html.escape(url, quote=True) + '">' + source + '</a></p>'
 
 
 def render_downloads(release, assets, lang):
     copy = COPY[lang]
-    result = ['<p id="release-title" class="latest-subtitle">' + html.escape(copy["version"].format(version=release["tag_name"])) + "</p>",
+    result = ['<p id="release-title" class="latest-subtitle" aria-live="polite">' + html.escape(copy["version"].format(version=release["tag_name"])) + "</p>",
               '<p class="muted">' + copy["subtitle"] + "</p>",
-              '<div id="download-files" class="release-download-grid">']
+              '<div id="download-files" class="release-download-grid" aria-live="polite">']
     for extension, (title, description) in copy["formats"].items():
         for asset in assets:
             if not asset["name"].lower().endswith("." + extension):
