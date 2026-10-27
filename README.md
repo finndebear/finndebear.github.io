@@ -1,83 +1,59 @@
 # STPlayer — Stream Transport Player
-An Android audiobook player with built-in access to online catalogs, local media, and torrent sources.
 
-## Installation
-Visit the [STPlayer website](https://finndebear.github.io/stplayer/) or download the latest `.apk` from the [public releases](https://finndebear.github.io/stplayer/latest) page and install it on your device.
+STPlayer is a free audiobook player for Android 8.0 and newer. Listen to your own
+files, browse supported public online catalogs, or download supported books for
+offline playback. STPlayer does not host, bundle or sell audiobooks.
 
-> **Android 8.0 or newer required.**
-> You may need to allow installation from unknown sources in your device settings (*Settings → Apps → Special app access → Install unknown apps*).
+## Install
 
-## Features
+- [Google Play](https://play.google.com/store/apps/details?id=com.st.player)
+- [RuStore](https://www.rustore.ru/catalog/app/com.st.player)
+- [Latest APK and ZIP](https://finndebear.github.io/stplayer/latest/)
+- [Русская страница скачивания](https://finndebear.github.io/stplayer/ru/latest/)
 
-### Playback
-- Adjustable playback speed and pitch
-- Sleep timer — fixed duration, end-of-track, scheduled, or motion-reset (stops when you stop moving)
-- Skip silence — automatically skips silent gaps
-- Loudness normalization
-- 30-second skip forward and backward
-- Bookmarks with custom icons and timestamps
-- Multi-track book support with track picker
-- Configurable playback start: always resume, last device used, headset/Bluetooth only, or never auto-start
-- Single-tap or double-tap to play
+For a direct APK installation, Android may ask you to allow installation from your
+browser or file manager. Install an update over the existing app to retain its data.
 
-### Library
-- Playback history with search
-- Favorites — books, genres, authors, and performers
-- Per-source browsing: genres, authors, narrators, collections
-- Sorting by: newest, popular, rating, trending, discussed — by day, week, month, or all time
-- Search within sources
+This release reworks internal library storage. Before updating, create a library
+backup in **Settings → Backup & restore → Back up** as a precaution. Audio files are not
+included in the library backup.
 
-### Downloads
-- Download audiobooks for offline playback
-- Configurable download folder (any location you choose)
-- Adjustable concurrent download limits
-- Download progress tracking
+## Listening
 
-### Local Media
-- Browse audio files from any folder on your device
-- Supports MP3, M4A, M4B with embedded cover art
-- Torrent playback (magnet links and .torrent files)
+- Resume positions, chapter navigation, bookmarks and favorites.
+- Playback speed and pitch, silence skipping and loudness normalization.
+- Sleep timer with duration, end-of-track, schedule and optional motion reset.
+- Local audio, online streaming, supported downloads and torrent sources.
+- Background playback, Android Auto, Bluetooth and Android TV controls.
+- Themes, text scaling and 12 interface languages.
 
-### Android Auto
-- Full Android Auto support: history, favorites, sources, and search
-
-### Appearance
-- Light, Dark, System, and Twilight themes
-- Three UI scale options (Small, Medium, Large)
-- 12 interface languages: English, Russian, German, French, Spanish, Dutch, Finnish, Portuguese, Swedish, Turkish, Chinese, Japanese
-
-## Built-in Sources
-The app includes several built-in audiobook catalogs. No account is needed for the free sources.
-
-| Source | Content | Language |
-|--------|---------|----------|
-| **LibriVox** | Public domain audiobooks | Multi-language |
-| **LoyalBooks** | Public domain audiobooks — Top 100 and genre browsing | English |
-| **Digitalbook.io** | Free audiobook catalog | Multi-language |
-| **Bibe** | Classic audiobooks | Russian |
-| **Local Library** | Audio files from device storage, downloads, and torrents | Any |
-
-### Extended Catalog
-Users with access to the extended catalog get additional sources, including a large selection of Russian-language audiobook sites and YouTube. Extended catalog sources are loaded automatically from `Android/media/com.st.player/sources/` — place your subscription source files there and the app picks them up on next launch.
-
-## Permissions
-| Permission | Why |
-|-----------|-----|
-| Internet | Browse and stream online audiobook sources |
-| Access network state | Detect connectivity before attempting network requests |
-| Foreground service | Keep playback running while the screen is off |
-| Wake lock | Prevent the CPU from sleeping during active playback |
-| Post notifications | Show the playback notification and controls |
-| Read audio files | Access local audio files for playback |
-| Vibrate | Optional haptic feedback on playback control gestures |
-
-The app does not access your location, contacts, microphone, or camera.
+Catalog availability, downloads and category/sort options depend on each source.
+The in-app **Help** describes current controls and recovery steps in your selected
+language. In **About**, the icon and STPlayer name open the website, and **Privacy
+Policy** opens the policy in the app language.
 
 ## Privacy
-Production builds use Google Firebase Crashlytics for crash diagnostics (not Firebase Analytics or Performance Monitoring), and the app communicates with the audiobook sources and peer-to-peer networks you choose to use. Optional cross-device synchronization sends end-to-end encrypted snapshots through independent public Nostr relays; relay-visible technical metadata is described in the policy.
 
-See the full [Privacy Policy](https://finndebear.github.io/stplayer/privacy).
+Library data is stored on your device. Production builds use Firebase Crashlytics
+for crash diagnostics. Online sources receive requests when you use them. Optional
+synchronization sends encrypted snapshots through independent public Nostr relays;
+audio files and storage permissions stay on each device.
+
+Read the [Privacy Policy](https://finndebear.github.io/stplayer/privacy/?lang=en)
+or [Политику конфиденциальности](https://finndebear.github.io/stplayer/privacy/?lang=ru).
+
+## Website maintenance
+
+The public site is served by GitHub Pages from this repository. The home and
+`latest` pages read the latest stable GitHub release automatically, including
+localized release notes with a link to the exact source release. A checked-in
+snapshot keeps downloads available when JavaScript or the API is unavailable.
+
+See [website tools and verification](tools/README.md) before changing or publishing
+the site. Official SVG store badges are stored locally; RuStore appears only on the
+Russian download page.
 
 ## License
+
 © 2025–2026 stpork. All rights reserved.
-Personal use only. See [LICENSE](LICENSE) for terms.
+Personal use only; see [LICENSE](LICENSE).
