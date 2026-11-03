@@ -28,6 +28,8 @@ included in the library backup.
 - Stop saves the current position and closes the selected book.
 - Background playback, Android Auto, Bluetooth and Android TV controls.
 - Themes, text scaling and 12 interface languages.
+- Optional encrypted sync for history, favorites, positions and bookmarks,
+  including large libraries. Update every paired device for large-library sync.
 
 Catalog availability, downloads and category/sort options depend on each source.
 The in-app **Help** describes current controls and recovery steps in your selected
