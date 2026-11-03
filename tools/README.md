@@ -1,5 +1,15 @@
 # Static website updates
 
+The canonical templates live in the release-distribution repository’s `docs/`
+directory. The public GitHub Pages repository is a generated snapshot; direct
+edits there can be replaced by the next publication. Run the commands below
+from the directory containing `stplayer/` (`docs/` in the source checkout, or
+the root of the public snapshot).
+
+The publisher writes metadata from the verified public release and runs the
+renderer before committing its snapshot. The checked-in metadata supports
+offline previews; it does not override the release selected for publication.
+
 `stplayer/assets/site.js` looks up the latest published stable release from the
 public GitHub API on the English and Russian home/download pages. It refreshes APK
 links, version and size captions, download cards, localized release notes and

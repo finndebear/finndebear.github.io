@@ -8,7 +8,6 @@ from html.parser import HTMLParser
 import json
 from pathlib import Path
 import re
-from urllib.parse import urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -67,17 +66,29 @@ def validate_release(release):
         extension = Path(name).suffix.lower().lstrip(".")
         if extension not in ("apk", "zip"):
             continue
-        url = urlsplit(asset.get("browser_download_url", ""))
-        if (url.scheme != "https" or url.netloc != "github.com"
-                or not url.path.startswith(RELEASE_PATH + tag + "/")
-                or url.path.rsplit("/", 1)[-1] != name):
+        expected_url = "https://github.com" + RELEASE_PATH + tag + "/" + name
+        if (not re.fullmatch(r"[A-Za-z0-9._+-]+", name)
+                or asset.get("browser_download_url") != expected_url):
             raise ValueError("Download asset must belong to this public release: " + name)
         if type(asset.get("size")) is not int or asset["size"] <= 0:
             raise ValueError("Invalid asset size: " + name)
         assets.append(asset)
     if not any(asset["name"].lower().endswith(".apk") for asset in assets):
         raise ValueError("The stable release must contain an Android APK")
-    return assets
+    # Match the runtime picker: publish one card per format, preferring stable
+    # aliases even when GitHub returns the versioned assets first. All static
+    # consumers (cards, homepage links and schema) receive this same selection.
+    selected = []
+    for extension in ("apk", "zip"):
+        matching = [asset for asset in assets if asset["name"].lower().endswith("." + extension)]
+        if not matching:
+            continue
+        preferred = next((asset for asset in matching if asset["name"] == "stplayer." + extension), matching[0])
+        if preferred["name"] == "stplayer." + extension:
+            preferred = dict(preferred, browser_download_url=(
+                "https://github.com/finndebear/finndebear.github.io/releases/latest/download/" + preferred["name"]))
+        selected.append(preferred)
+    return selected
 
 
 def replace_once(source, pattern, replacement):

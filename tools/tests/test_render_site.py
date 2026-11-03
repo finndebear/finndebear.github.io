@@ -2,6 +2,7 @@ import copy
 import importlib.util
 import json
 from pathlib import Path
+import re
 import shutil
 import tempfile
 import unittest
@@ -82,6 +83,30 @@ class StaticSiteTest(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     site.validate_release(invalid)
 
+    def test_noncanonical_downloads_are_rejected_before_any_html_write(self):
+        asset = self.release["assets"][0]
+        prefix = "https://github.com/finndebear/finndebear.github.io/releases/download/"
+        current = prefix + self.release["tag_name"] + "/"
+        variants = [
+            (asset["name"], current + "%2e%2e/0.0.1/" + asset["name"]),
+            (asset["name"], current + "extra/" + asset["name"]),
+            (asset["name"], asset["browser_download_url"] + "?download=1"),
+            (asset["name"], asset["browser_download_url"] + "#different-version"),
+            ("stplayer release.apk", current + "stplayer release.apk"),
+            ("stplayer-версия.apk", current + "stplayer-версия.apk"),
+            ("../stplayer.apk", current + "../stplayer.apk"),
+        ]
+        for name, url in variants:
+            with self.subTest(name=name, url=url):
+                invalid = copy.deepcopy(self.release)
+                invalid["assets"][0].update(name=name, browser_download_url=url)
+                self.write_release(invalid)
+                originals = {filename: (self.root / filename).read_bytes() for filename, _, _ in site.PAGES}
+                with self.assertRaises(ValueError):
+                    site.render_site(self.root)
+                for filename, original in originals.items():
+                    self.assertEqual(original, (self.root / filename).read_bytes())
+
     def test_apk_and_positive_asset_sizes_are_required(self):
         invalid = copy.deepcopy(self.release)
         invalid["assets"][0]["size"] = 0
@@ -135,6 +160,46 @@ class StaticSiteTest(unittest.TestCase):
             self.assertEqual(1, source.count('class="release-download-card'))
             self.assertNotIn('format-zip', source)
             self.assertNotIn("ZIP", site.Metadata(source).description)
+
+    def test_stable_aliases_are_preferred_consistently_with_either_asset_order(self):
+        release = copy.deepcopy(self.release)
+        aliases = []
+        for asset in release["assets"]:
+            alias = copy.deepcopy(asset)
+            extension = Path(asset["name"]).suffix
+            alias["name"] = "stplayer" + extension
+            alias["browser_download_url"] = (
+                "https://github.com/finndebear/finndebear.github.io/releases/download/"
+                + release["tag_name"] + "/" + alias["name"])
+            aliases.append(alias)
+        versioned = release["assets"]
+        expected_apk = "https://github.com/finndebear/finndebear.github.io/releases/latest/download/stplayer.apk"
+        expected_zip = "https://github.com/finndebear/finndebear.github.io/releases/latest/download/stplayer.zip"
+        for assets in (versioned + aliases, aliases + versioned):
+            with self.subTest(order=[asset["name"] for asset in assets]):
+                release["assets"] = assets
+                original_assets = copy.deepcopy(assets)
+                selected = site.validate_release(release)
+                self.assertEqual(["stplayer.apk", "stplayer.zip"], [asset["name"] for asset in selected])
+                self.assertEqual(original_assets, assets, "Selection must not rewrite release metadata")
+                self.write_release(release)
+                site.render_site(self.root)
+                for lang in ("en", "ru"):
+                    for release_page in (False, True):
+                        source = self.page(lang, release_page).read_text()
+                        schema = json.loads(re.search(
+                            r'<script type="application/ld\+json">(.*?)</script>', source, re.S).group(1))
+                        app = next(node for node in schema["@graph"] if node["@type"] == "SoftwareApplication")
+                        self.assertEqual(expected_apk, app["downloadUrl"])
+                        if release_page:
+                            self.assertEqual(2, source.count('class="release-download-card'))
+                            self.assertIn('href="' + expected_apk + '">', source)
+                            self.assertIn('href="' + expected_zip + '">', source)
+                        else:
+                            links = re.findall(r'<a\b[^>]*\bdata-apk-download\b[^>]*\bhref="([^"]+)"', source)
+                            self.assertEqual([expected_apk, expected_apk], links)
+                self.assertEqual([], site.render_site(self.root, check=True))
+                self.assertEqual([], site.render_site(self.root))
 
     def test_main_headings_are_descriptive_and_language_links_remain_paired(self):
         for lang, heading in (("en", "Audiobook"), ("ru", "Плеер")):

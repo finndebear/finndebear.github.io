@@ -30,12 +30,12 @@ nav a, .footer-links a { text-decoration: none; }
 nav a:hover, .footer-links a:hover { color: var(--blue); }
 .nav-download { padding: 10px 16px; border: 1px solid var(--border-strong); border-radius: 6px; }
 .nav-download span { margin-left: 20px; color: var(--blue); }
-.play-store-link { display: inline-flex; flex-shrink: 0; border-radius: 6px; }
-.play-store-link img { display: block; width: 180px; height: auto; }
+.store-links { display: inline-flex; align-items: center; gap: 12px; margin-left: auto; }
+.play-store-link, .rustore-link { display: inline-flex; align-items: center; flex-shrink: 0; min-height: 44px; border-radius: 6px; }
+.store-links img { display: block; width: auto; height: 40px; }
 .eyebrow { display: flex; align-items: center; gap: 9px; font-size: 10px; font-weight: 650; letter-spacing: 1.8px; color: var(--muted); margin: 0 0 23px; }
 .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex: 0 0 6px; }
 .hero { display: grid; grid-template-columns: 1.2fr 1fr; column-gap: 42px; align-items: center; padding-top: 58px; }
-.ru-page .hero { grid-template-columns: 1.4fr .8fr; }
 .hero h1 { font-size: clamp(62px, 6.9vw, 94px); font-weight: 700; line-height: .98; letter-spacing: -4.5px; margin: 0 0 28px; }
 .ru-page .hero h1 { letter-spacing: -4px; }
 .hero h1 span { color: var(--blue); }
@@ -174,7 +174,6 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
 @media (max-width: 1050px) {
   .wrap { width: calc(100% - 64px); }
   .hero { column-gap: 20px; grid-template-columns: 1.2fr 1fr; }
-  .ru-page .hero { grid-template-columns: 1.4fr .8fr; }
   .hero h1 { font-size: clamp(56px, 7.4vw, 76px); }
   .hero-art { height: 330px; }
   .hero-icon { width: 208px; height: 208px; }
@@ -205,11 +204,9 @@ details > p { font-size: 13px; color: var(--muted); padding-bottom: 20px; }
   .release-header .header-actions { display: contents; }
   .release-header .language-switch { order: 1; margin-left: auto; }
   .release-header .theme-toggle { order: 1; margin-left: 0; }
-  .release-header nav { order: 2; width: 100%; }
-  .release-header .play-store-link { margin-left: auto; }
-  .release-header .play-store-link img { width: 160px; }
+  .release-header nav { order: 2; width: 100%; flex-wrap: wrap; }
+  html[lang="ru"] .release-header .store-links { flex-basis: 100%; margin-left: 0; }
   .hero { padding-top: 40px; grid-template-columns: 1fr; }
-  .ru-page .hero { grid-template-columns: 1fr; }
   .hero h1 { font-size: clamp(43px, 7.4vw, 76px); letter-spacing: -3px; margin-bottom: 25px; }
   .ru-page .hero h1 { letter-spacing: -2px; }
   .hero .eyebrow { font-size: 9px; letter-spacing: 1.4px; margin-bottom: 25px; }
