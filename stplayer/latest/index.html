@@ -99,12 +99,34 @@
   <section class="release-notes-section" aria-labelledby="notes-heading"><p class="eyebrow">WHAT’S NEW</p><h2 id="notes-heading">Release notes.</h2><div id="release-notes">
 <!-- BEGIN GENERATED NOTES -->
 <ul>
-<li>Original book titles are preserved when you change the app language.</li>
-<li>The speed dial follows your adjustments more precisely. In the mini-player, speed stays to the left of the sleep timer and keeps its position when the timer is hidden.</li>
-<li>Switching books while audio is loading is more reliable.</li>
-<li>Fixed playback and cover loading for some online books.</li>
-<li>Help explains the minimum search length for some sources and the message shown when the app syncs the available data.</li>
+<li>Fixed catalogue links, chapter loading, playback and missing covers on several online sources.</li>
+<li>YouTube podcast playlists now load their titles and chapters correctly.</li>
+<li>Fixed missing audiobook results in global search.</li>
+<li>Small movements of the playback speed dial now register reliably.</li>
+<li>Fixed an issue where cancelling a stream could prevent other books from starting.</li>
+<li>Corrected chapter, position and seek-control updates in Android Auto and system media controls.</li>
+<li>If files cannot be checked before deletion, the app now preserves the book and current playback and reports the error.</li>
+<li>Sync changes preserve the existing pairing if saving fails and retain recovery data until replacement syncing succeeds.</li>
+<li>Fixed outdated download-folder information and permission status in Settings.</li>
 </ul>
+<details class="release-details"><summary>More release details</summary>
+<h3>Behavior changes</h3>
+<ul>
+<li>YouTube books and playlists use their original titles, regardless of the app language.</li>
+<li>The mini-player’s sleep timer sits at the bottom right; the speed indicator stays in place when the timer disappears.</li>
+<li>Unsupported online search options are hidden for Digitalbook.io and LoyalBooks. Their catalogues remain available to browse.</li>
+</ul>
+<h3>BREAKING CHANGES</h3>
+<p>None</p>
+<h3>Risks / What to test</h3>
+<ul>
+<li>Browse, search and load more books; check covers and playback, especially on MP3 Книги.</li>
+<li>Adjust playback speed, toggle the sleep timer and switch books while a stream is loading.</li>
+<li>Restart the app and check resume, chapter switching and seeking in Android Auto.</li>
+<li>Change download folders and restore storage access; confirm failed deletion checks preserve the library and playback.</li>
+<li>Pair devices and change sync codes; check recovery after saving or connection failures.</li>
+</ul>
+</details>
 <p class="small release-source"><a href="https://github.com/finndebear/finndebear.github.io/releases/tag/0.1.99">Source: GitHub release 0.1.99</a></p>
 <!-- END GENERATED NOTES -->
 </div></section>
