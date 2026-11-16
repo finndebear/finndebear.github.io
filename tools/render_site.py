@@ -51,7 +51,7 @@ def render_layouts(root):
                            hashlib.sha256((release.get("body") or "").encode()).hexdigest() == translated["bodySha256"])
     outputs = {}
     regions = {"en": "en_US", "de": "de_DE", "es": "es_ES", "fi": "fi_FI", "fr": "fr_FR", "ja": "ja_JP",
-               "nl": "nl_NL", "pt": "pt_BR", "ru": "ru_RU", "sv": "sv_SE", "tr": "tr_TR", "zh": "zh_CN"}
+               "nl": "nl_NL", "pt": "pt_PT", "ru": "ru_RU", "sv": "sv_SE", "tr": "tr_TR", "zh": "zh_CN"}
     for lang in LANGUAGES:
         d = LOCALES[lang]
         if set(d) != set(LOCALES["en"]) or any(not isinstance(v, str) or not v.strip() for v in d.values()):

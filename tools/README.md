@@ -45,7 +45,12 @@ notes are linked on GitHub. Untrusted release text is rendered as text.
 
 The hero uses the app icon and decorative sound waves. The icon is served as a
 smaller WebP; the original PNG remains available for external links and social
-previews. Language flags match STPlayer Settings (including UK English and
+references. Social previews use `stplayer-social.png`, the existing STPlayer
+store feature graphic (1024 × 500), with explicit Open Graph dimensions and a
+large Twitter card. It is metadata only and is not downloaded to render the page.
+After changing a shared image, use the Facebook Sharing Debugger to refresh its
+cached preview; fetching with a crawler User-Agent does not refresh Meta's cache.
+Language flags match STPlayer Settings (including UK English and
 Portuguese from Portugal). No external fonts or UI framework are required.
 
 Publication remains a separate step. The mirror publisher exports only tracked

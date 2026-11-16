@@ -3,6 +3,7 @@ from html.parser import HTMLParser
 import json
 from pathlib import Path
 import re
+import struct
 import unittest
 from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
@@ -25,6 +26,27 @@ class Page(HTMLParser):
 
 
 class SiteContractTest(unittest.TestCase):
+    def test_social_preview_dimensions_match_the_public_image_in_every_language(self):
+        url = BASE + '/stplayer/assets/stplayer-social.png'
+        image = (ROOT / 'stplayer/assets/stplayer-social.png').read_bytes()
+        self.assertEqual(b'\x89PNG\r\n\x1a\n', image[:8])
+        width, height = struct.unpack('>II', image[16:24])
+        self.assertGreaterEqual(width, 600)
+        self.assertGreaterEqual(height, 315)
+        for loc in ET.parse(ROOT / 'sitemap.xml').iter('{http://www.sitemaps.org/schemas/sitemap/0.9}loc'):
+            if '/privacy/' in loc.text:
+                continue
+            page = Page((ROOT / urlsplit(loc.text).path.lstrip('/') / 'index.html').read_text())
+            with self.subTest(url=loc.text):
+                for key, value in (('og:image', url), ('og:image:type', 'image/png'),
+                                   ('og:image:width', str(width)), ('og:image:height', str(height))):
+                    self.assertEqual([{'property': key, 'content': value}], page.find('meta', property=key))
+                self.assertEqual([{'name': 'twitter:card', 'content': 'summary_large_image'}],
+                                 page.find('meta', name='twitter:card'))
+                self.assertEqual([{'name': 'twitter:image', 'content': url}], page.find('meta', name='twitter:image'))
+                if page.find('html')[0]['lang'] == 'pt':
+                    self.assertEqual([{'property': 'og:locale', 'content': 'pt_PT'}], page.find('meta', property='og:locale'))
+
     def test_site_identity_is_declared_at_the_domain_root_and_shared_by_the_homepage(self):
         def schemas(filename):
             return [json.loads(raw) for raw in re.findall(
