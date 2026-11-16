@@ -63,6 +63,13 @@ class LatestReleaseBrowserTest(unittest.TestCase):
         page.goto(self.base + path, wait_until='networkidle')
         return page
 
+    def test_root_redirect_keeps_the_homepage_and_legacy_privacy_links(self):
+        for path, expected in (('/', '/stplayer/'), ('/?lang=fi', '/stplayer/privacy/?lang=fi')):
+            with self.subTest(path=path):
+                page = self.open(path)
+                self.assertEqual(self.base + expected, page.url)
+                page.close()
+
     def test_homepages_update_both_downloads_version_labels_and_schema(self):
         for path in ('/stplayer/', '/stplayer/ru/'):
             with self.subTest(path=path):

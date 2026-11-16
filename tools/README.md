@@ -52,6 +52,20 @@ Publication remains a separate step. The mirror publisher exports only tracked
 public files, writes metadata after asset verification and runs the renderer.
 Local previews and test results do not establish deployment or search ranking.
 
+After publishing new or changed pages, notify IndexNow participants (including
+Bing and Yandex) once for the entire generated sitemap:
+
+```sh
+python3 tools/notify_indexnow.py
+python3 tools/notify_indexnow.py --submit
+```
+
+The first command is an offline dry run. Submission checks the deployed sitemap
+and public ownership challenge (`indexnow.txt`) before sending. HTTP 200 means
+received, and 202 means ownership validation is pending; neither proves indexing.
+Google uses Search Console and the sitemap separately. Do not repeatedly submit
+unchanged pages. See the [IndexNow protocol](https://www.indexnow.org/documentation).
+
 Google Play badges are unmodified localized SVGs from the official
 [Partner Marketing Hub digital SVG collection](https://partnermarketinghub.withgoogle.com/brands/google-play/google-play/lockups-icons-badges/?folder=86718).
 The site uses the Portugal and Simplified Chinese variants, matching its language

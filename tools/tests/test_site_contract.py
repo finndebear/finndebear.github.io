@@ -1,6 +1,8 @@
 """Indexable pages, local navigation and security work without JavaScript."""
 from html.parser import HTMLParser
+import json
 from pathlib import Path
+import re
 import unittest
 from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
@@ -23,6 +25,17 @@ class Page(HTMLParser):
 
 
 class SiteContractTest(unittest.TestCase):
+    def test_site_identity_is_declared_at_the_domain_root_and_shared_by_the_homepage(self):
+        def schemas(filename):
+            return [json.loads(raw) for raw in re.findall(
+                r'<script type="application/ld\+json">(.*?)</script>', (ROOT / filename).read_text(), re.S)]
+        root = next(node for node in schemas('index.html') if node['@type'] == 'WebSite')
+        self.assertEqual(BASE + '/', root['url'])
+        self.assertEqual('STPlayer', root['name'])
+        home = next(node for schema in schemas('stplayer/index.html') for node in schema['@graph']
+                    if node['@type'] == 'WebSite')
+        self.assertEqual({key: value for key, value in root.items() if key != '@context'}, home)
+
     def test_sitemap_pages_are_indexable_and_have_unique_titles_and_descriptions(self):
         titles, descriptions = set(), set()
         for loc in ET.parse(ROOT / 'sitemap.xml').iter('{http://www.sitemaps.org/schemas/sitemap/0.9}loc'):

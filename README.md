@@ -1,4 +1,4 @@
-# STPlayer — Stream Transport Player
+# [STPlayer — Stream Transport Player](https://finndebear.github.io/stplayer/)
 
 STPlayer is a free audiobook player for Android 8.0 and newer. Listen to your own
 files, browse supported public online catalogs, or download supported books for

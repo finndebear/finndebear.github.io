@@ -13,6 +13,7 @@ from string import Template
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://finndebear.github.io/stplayer/"
+SITE_ROOT = BASE.removesuffix("stplayer/")
 PLAY_STORE = "https://play.google.com/store/apps/details?id=com.st.player"
 RELEASE_PATH = "/finndebear/finndebear.github.io/releases/download/"
 LANGUAGES = ("en", "de", "es", "fi", "fr", "ja", "nl", "pt", "ru", "sv", "tr", "zh")
@@ -236,6 +237,11 @@ class Metadata(HTMLParser):
             self.canonical = attributes["href"]
 
 
+def site_identity():
+    return {"@type": "WebSite", "@id": SITE_ROOT + "#website", "name": "STPlayer",
+            "alternateName": "Stream Transport Player", "url": SITE_ROOT}
+
+
 def render_schema(source, release, assets, lang, is_release):
     metadata = Metadata(source)
     expected_url = BASE + language_path(lang) + ("latest/" if is_release else "")
@@ -257,7 +263,7 @@ def render_schema(source, release, assets, lang, is_release):
     }
     graph = []
     if lang == "en" and not is_release:
-        graph.append({"@type": "WebSite", "name": "STPlayer", "alternateName": "Stream Transport Player", "url": BASE})
+        graph.append(site_identity())
     graph.extend([{"@type": "WebPage", "@id": expected_url + "#webpage", "url": expected_url,
                    "inLanguage": lang, "about": {"@id": app["@id"]}}, app])
     data = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, indent=2).replace("<", "\\u003c")
@@ -268,6 +274,9 @@ def render_site(root, check=False):
     release = json.loads((root / "stplayer/assets/latest-release.json").read_text(encoding="utf-8"))
     assets = validate_release(release)
     outputs = render_layouts(root)
+    identity = json.dumps({"@context": "https://schema.org", **site_identity()}, ensure_ascii=False, indent=2)
+    outputs[root / "index.html"] = replace_region((root / "index.html").read_text(), "GENERATED SITE IDENTITY",
+                                                 '<script type="application/ld+json">\n' + identity + '\n</script>')
     for filename, lang, is_release in PAGES:
         page = root / filename
         source = outputs[page]
