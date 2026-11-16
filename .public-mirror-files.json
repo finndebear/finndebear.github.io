@@ -81,5 +81,6 @@
   "tools/templates/home.html.in",
   "tools/templates/latest.html.in",
   "tools/tests/test_render_site.py",
-  "tools/tests/test_site_contract.py"
+  "tools/tests/test_site_contract.py",
+  "yandex_95d5a14bf80769f0.html"
 ]
