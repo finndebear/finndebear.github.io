@@ -1,53 +1,60 @@
-# Static website updates
+# Static website maintenance
 
-The canonical templates live in the release-distribution repository’s `docs/`
-directory. The public GitHub Pages repository is a generated snapshot; direct
-edits there can be replaced by the next publication. Run the commands below
-from the directory containing `stplayer/` (`docs/` in the source checkout, or
-the root of the public snapshot).
+Edit `tools/templates/*.html.in` and `stplayer/assets/locales.json` in this
+repository’s `docs/` directory. The public GitHub Pages repository is a generated
+snapshot; edits to generated HTML are replaced on the next render/publication.
+The site has English, German, Spanish, Finnish, French, Japanese, Dutch,
+Portuguese, Russian, Swedish and Turkish translations, plus Simplified Chinese.
+All 12 languages have static home, guide and download pages, with reciprocal
+language links and a generated sitemap. English retains `/stplayer/`; other
+languages use `/stplayer/<code>/`. The existing privacy page supports all 12 via
+`?lang=<code>`; its policy text remains at its original owner.
 
-The publisher writes metadata from the verified public release and runs the
-renderer before committing its snapshot. The checked-in metadata supports
-offline previews; it does not override the release selected for publication.
-
-`stplayer/assets/site.js` looks up the latest published stable release from the
-public GitHub API on the English and Russian home/download pages. It refreshes APK
-links, version and size captions, download cards, localized release notes and
-application metadata. Publishing a new release needs no HTML or version-label
-edits. When a release includes stable `stplayer.apk` / `stplayer.zip` aliases, those
-are preferred without duplicating the versioned downloads.
-
-The lookup is bounded to eight seconds. Invalid releases, drafts, prereleases and
-foreign download URLs are rejected before updating the page. The checked-in release
-snapshot remains available without JavaScript, offline or if GitHub rate-limits the
-request. The download page also links directly to GitHub's latest release.
-
-`stplayer/assets/latest-release.json` supplies that static fallback. To refresh the
-fallback snapshot, regenerate and check the tracked HTML from this repository:
+From the directory containing `stplayer/` (`docs/` in this checkout, or the root
+of the public snapshot), run:
 
 ```sh
 python3 tools/render_site.py
 python3 tools/render_site.py --check
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tools/tests -v
-```
-
-The renderer updates the English and Russian download pages, homepage APK links
-and version labels, application structured data, and changed CSS/JS fingerprints.
-It runs offline and does not publish, fetch releases, or modify Git state.
-The generated HTML is served directly by GitHub Pages. `--check` writes nothing and
-fails when the snapshot and HTML differ. Content outside the marked generated
-regions remains editable in the HTML files.
-
-Release notes keep the main changes visible immediately; additional sections use a
-native HTML disclosure to keep the page compact. Both the static renderer and the
-runtime lookup render release-note markup as text.
-
-Browser regression tests serve the real site locally and intercept the GitHub API.
-With Python Playwright and its Chromium browser installed, run:
-
-```sh
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tools/browser_tests -v
 ```
 
-These cover both languages, mobile layout, new releases, APK-only releases, stable
-aliases, unsafe response data, unavailable GitHub and JavaScript-disabled fallback.
+Browser tests require Python Playwright and its Chromium browser. They serve real
+local files and intercept GitHub release responses, including failures. Coverage
+includes all languages, mobile and desktop layout, theme controls, language
+navigation, new releases, APK-only releases, stable aliases, unsafe responses,
+JavaScript-disabled fallback and privacy-page navigation.
+
+`stplayer/assets/latest-release.json` is the verified public-release snapshot.
+The renderer updates downloads, localized captions, release notes, application
+structured data and local asset fingerprints. It runs offline, validates before
+writing, and does not publish or modify Git state. `--check` writes nothing.
+
+At runtime `site.js` checks GitHub’s latest stable release with an eight-second
+limit. It rejects drafts, prereleases, foreign asset URLs and invalid sizes.
+Stable `stplayer.apk` / `stplayer.zip` aliases are preferred without duplicate
+cards. Static downloads and notes remain usable without JavaScript or the API.
+
+English and Russian release notes come from the release body. Translated summaries
+for the other ten languages live in `stplayer/assets/release-translations.json`.
+They are bound to the release tag and SHA-256 of the exact UTF-8 release body;
+changing either shows a localized missing-translation message, never stale notes.
+Update the summaries and digest when publishing another release. Full original
+notes are linked on GitHub. Untrusted release text is rendered as text.
+
+The hero uses the app icon and decorative sound waves. The icon is served as a
+smaller WebP; the original PNG remains available for external links and social
+previews. Language flags match STPlayer Settings (including UK English and
+Portuguese from Portugal). No external fonts or UI framework are required.
+
+Publication remains a separate step. The mirror publisher exports only tracked
+public files, writes metadata after asset verification and runs the renderer.
+Local previews and test results do not establish deployment or search ranking.
+
+Google Play badges are unmodified localized SVGs from the official
+[Partner Marketing Hub digital SVG collection](https://partnermarketinghub.withgoogle.com/brands/google-play/google-play/lockups-icons-badges/?folder=86718).
+The site uses the Portugal and Simplified Chinese variants, matching its language
+choices. All badges are served locally at a 40 px height; RuStore follows Google
+Play on the Russian download page. Download pages omit the redundant header
+link to themselves; home and guide pages retain the download link.

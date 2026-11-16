@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the checked-in release snapshot into both language versions, offline."""
+"""Render the checked-in release snapshot into all supported language versions, offline."""
 
 import argparse
 import hashlib
@@ -8,44 +8,86 @@ from html.parser import HTMLParser
 import json
 from pathlib import Path
 import re
+from string import Template
 
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://finndebear.github.io/stplayer/"
 PLAY_STORE = "https://play.google.com/store/apps/details?id=com.st.player"
 RELEASE_PATH = "/finndebear/finndebear.github.io/releases/download/"
-PAGES = (
-    ("stplayer/index.html", "en", False),
-    ("stplayer/ru/index.html", "ru", False),
-    ("stplayer/latest/index.html", "en", True),
-    ("stplayer/ru/latest/index.html", "ru", True),
-)
-COPY = {
-    "en": {
-        "version": "Version {version} · Android 8.0+",
-        "title": "Download STPlayer {version} APK for Android",
-        "description": "Download STPlayer {version} for Android 8.0+: {formats}. Free audiobook player for online catalogs, MP3, M4B and offline listening.",
-        "subtitle": "The latest stable version. Free, with no ads or subscription.",
-        "formats": {"apk": ("Android installer", "Install on your phone or tablet."), "zip": ("ZIP archive", "The archive supplied with this release.")},
-        "download": "↓ Download",
-        "more": "More release details",
-        "no_notes": "No release notes were provided.",
-        "missing_translation": "English release notes are not available for this version.",
-        "source": "Source: GitHub release {version}",
-    },
-    "ru": {
-        "version": "Версия {version} · Android 8.0+",
-        "title": "Скачать STPlayer {version} APK для Android",
-        "description": "Скачайте STPlayer {version} для Android 8.0+: {formats}. Бесплатный плеер аудиокниг: онлайн-каталоги, MP3, M4B и прослушивание без интернета.",
-        "subtitle": "Последняя стабильная версия. Бесплатно, без рекламы и подписки.",
-        "formats": {"apk": ("Установочный файл Android", "Установите на телефон или планшет."), "zip": ("ZIP-архив", "Архив из этого релиза.")},
-        "download": "↓ Скачать",
-        "more": "Подробности версии",
-        "no_notes": "Описание версии не опубликовано.",
-        "missing_translation": "Заметки на русском языке для этой версии пока недоступны.",
-        "source": "Источник: релиз {version} на GitHub",
-    },
-}
+LANGUAGES = ("en", "de", "es", "fi", "fr", "ja", "nl", "pt", "ru", "sv", "tr", "zh")
+LOCALES = json.loads((ROOT / "stplayer/assets/locales.json").read_text())
+
+
+def language_path(lang):
+    return "" if lang == "en" else lang + "/"
+
+
+PAGES = tuple(("stplayer/" + language_path(lang) + ("latest/" if latest else "") + "index.html", lang, latest)
+              for lang in LANGUAGES for latest in (False, True))
+COPY = {lang: dict(version=d["version"], title=d["downloadPageTitle"], description=d["downloadPageDescription"],
+                   subtitle=d["downloadSubtitle"], formats={"apk": (d["apkTitle"], d["apkBody"]),
+                   "zip": (d["zipTitle"], d["zipBody"])}, download=d["downloadVerb"], more=d["releaseMore"],
+                   no_notes=d["noNotes"], missing_translation=d["missingNotes"], source=d["source"])
+        for lang, d in LOCALES.items()}
+
+
+def runtime_copy(lang):
+    d = LOCALES[lang]
+    return dict(version=d["version"], download=d["downloadVerb"], more=d["releaseMore"], source=d["source"],
+                empty=d["noNotes"], missing=d["missingNotes"], apk=[d["apkTitle"], d["apkBody"]],
+                zip=[d["zipTitle"], d["zipBody"]], title=d["downloadPageTitle"], description=d["downloadPageDescription"],
+                summary=d["translatedSummary"])
+
+
+def render_layouts(root):
+    templates = {kind: Template((root / ("tools/templates/" + kind + ".html.in")).read_text())
+                 for kind in ("base", "home", "guide", "latest")}
+    analytics = (root / "tools/templates/analytics.html.in").read_text()
+    release = json.loads((root / "stplayer/assets/latest-release.json").read_text())
+    translated = json.loads((root / "stplayer/assets/release-translations.json").read_text())
+    translation_matches = (release["tag_name"] == translated["tag"] and
+                           hashlib.sha256((release.get("body") or "").encode()).hexdigest() == translated["bodySha256"])
+    outputs = {}
+    regions = {"en": "en_US", "de": "de_DE", "es": "es_ES", "fi": "fi_FI", "fr": "fr_FR", "ja": "ja_JP",
+               "nl": "nl_NL", "pt": "pt_BR", "ru": "ru_RU", "sv": "sv_SE", "tr": "tr_TR", "zh": "zh_CN"}
+    for lang in LANGUAGES:
+        d = LOCALES[lang]
+        if set(d) != set(LOCALES["en"]) or any(not isinstance(v, str) or not v.strip() for v in d.values()):
+            raise ValueError("Incomplete locale: " + lang)
+        for kind, suffix in (("home", ""), ("guide", "audiobooks/"), ("latest", "latest/")):
+            base = "/stplayer/" + language_path(lang)
+            canonical = BASE + language_path(lang) + suffix
+            v = {k: html.escape(value, quote=True) for k, value in d.items()}
+            v.update(lang=lang, homeUrl=base, guideUrl=base + "audiobooks/", latestUrl=base + "latest/",
+                     assets="../" * ((lang != "en") + (kind != "home")) + "assets", canonical=canonical,
+                     pageTitle=v[{"home": "homeTitle", "guide": "guideTitle", "latest": "downloadPageTitle"}[kind]],
+                     pageDescription=v[{"home": "homeDescription", "guide": "guideDescription", "latest": "downloadPageDescription"}[kind]],
+                     analytics=analytics, ogLocale=regions[lang], headerClass="release-header" if kind == "latest" else "")
+            v["alternates"] = "\n".join('<link rel="alternate" hreflang="' + code + '" href="' + BASE + language_path(code) + suffix + '">'
+                                         for code in LANGUAGES) + '\n<link rel="alternate" hreflang="x-default" href="' + BASE + suffix + '">'
+            links = ''.join('<a href="/stplayer/' + language_path(code) + suffix + '" lang="' + code + '" hreflang="' + code + '"' +
+                            (' aria-current="page"' if code == lang else '') + '>' + '<span aria-hidden="true">' + LOCALES[code]['flag'] + '</span> ' + html.escape(LOCALES[code]["name"]) + '</a>' for code in LANGUAGES)
+            v["languagePicker"] = '<details class="language-picker"><summary aria-label="' + v["language"] + ' — ' + v["name"] + '">' + '<span aria-hidden="true">' + d['flag'] + '</span></summary><nav class="language-options" aria-label="' + v["language"] + '">' + links + '</nav></details>'
+            v["extraStyles"] = '<link rel="stylesheet" href="' + v["assets"] + '/guide.css">' if kind == "guide" else ''
+            v["downloadNavigation"] = ('<a class="nav-download" href="' + v["latestUrl"] + '">' + v["download"] + ' <span aria-hidden="true">↗</span></a>') if kind != "latest" else ''
+            v["stores"] = ''
+            if kind == "latest":
+                badge = '<img src="' + v["assets"] + '/google-play-badge-' + lang + '.svg" height="40" alt="Google Play">'
+                v["stores"] = '<div class="store-links"><a class="play-store-link" href="' + PLAY_STORE + '">' + badge + '</a>'
+                if lang == "ru":
+                    v["stores"] += '<a class="rustore-link" href="https://www.rustore.ru/catalog/app/com.st.player"><img src="' + v["assets"] + '/rustore-badge.svg" height="40" alt="RuStore"></a>'
+                v["stores"] += '</div>'
+            v["runtime"] = ''
+            if kind != "guide":
+                data = runtime_copy(lang)
+                data["translation"] = dict(tag=translated["tag"], bodySha256=translated["bodySha256"],
+                                           notes=translated["translations"][lang]) if translation_matches and lang not in ("en", "ru") else None
+                v["runtime"] = '<script id="release-copy" type="application/json">' + json.dumps(data, ensure_ascii=False).replace('<', '\\u003c') + '</script>\n<script src="' + v["assets"] + '/site.js" defer></script>'
+            v["body"] = templates[kind].substitute(v)
+            outputs[root / ("stplayer/" + language_path(lang) + suffix + "index.html")] = templates["base"].substitute(v)
+    return outputs
+
 
 
 def validate_release(release):
@@ -106,6 +148,12 @@ def replace_region(source, name, content):
 
 def language_notes(release, lang):
     lines = (release.get("body") or "").splitlines()
+    if lang not in ("en", "ru"):
+        translated = json.loads((ROOT / "stplayer/assets/release-translations.json").read_text())
+        digest = hashlib.sha256((release.get("body") or "").encode()).hexdigest()
+        if release["tag_name"] == translated["tag"] and digest == translated["bodySha256"]:
+            return [LOCALES[lang]["translatedSummary"]] + ["- " + note for note in translated["translations"][lang]]
+        return [COPY[lang]["missing_translation"]]
     languages = {"en": "english", "ru": "русский"}
     sections = [(i, match.group(1).lower()) for i, line in enumerate(lines)
                 if (match := re.fullmatch(r"##\s+(English|Русский)\s*", line, re.I))]
@@ -190,7 +238,7 @@ class Metadata(HTMLParser):
 
 def render_schema(source, release, assets, lang, is_release):
     metadata = Metadata(source)
-    expected_url = BASE + ("ru/" if lang == "ru" else "") + ("latest/" if is_release else "")
+    expected_url = BASE + language_path(lang) + ("latest/" if is_release else "")
     if metadata.canonical != expected_url or not metadata.description:
         raise ValueError("Missing or inconsistent page metadata")
     apk = next(asset for asset in assets if asset["name"].lower().endswith(".apk"))
@@ -203,7 +251,7 @@ def render_schema(source, release, assets, lang, is_release):
         "softwareVersion": release["tag_name"].removeprefix("v"),
         "downloadUrl": apk["browser_download_url"], "installUrl": PLAY_STORE,
         "fileSize": str(apk["size"]) + " bytes",
-        "releaseNotes": BASE + ("ru/" if lang == "ru" else "") + "latest/#notes-heading",
+        "releaseNotes": BASE + language_path(lang) + "latest/#notes-heading",
         "author": {"@type": "Person", "name": "Finn de Bear"}, "sameAs": PLAY_STORE,
         "offers": {"@type": "Offer", "price": 0, "priceCurrency": "USD", "url": PLAY_STORE},
     }
@@ -219,14 +267,14 @@ def render_schema(source, release, assets, lang, is_release):
 def render_site(root, check=False):
     release = json.loads((root / "stplayer/assets/latest-release.json").read_text(encoding="utf-8"))
     assets = validate_release(release)
-    outputs = {}
+    outputs = render_layouts(root)
     for filename, lang, is_release in PAGES:
         page = root / filename
-        source = page.read_text(encoding="utf-8")
+        source = outputs[page]
         if is_release:
             title = html.escape(COPY[lang]["title"].format(version=release["tag_name"]))
             has_zip = any(asset["name"].lower().endswith(".zip") for asset in assets)
-            formats = ("APK installer or ZIP archive" if has_zip else "APK installer") if lang == "en" else ("APK или ZIP" if has_zip else "APK")
+            formats = "APK / ZIP" if has_zip else "APK"
             description = html.escape(COPY[lang]["description"].format(version=release["tag_name"], formats=formats), quote=True)
             source = replace_once(source, r"<title>.*?</title>", lambda _: "<title>" + title + "</title>")
             for attribute, key, content in (("name", "description", description), ("property", "og:title", title), ("property", "og:description", description)):
@@ -246,17 +294,38 @@ def render_site(root, check=False):
             if count != 2:
                 raise ValueError("Expected both homepage version labels")
         outputs[page] = replace_region(source, "GENERATED SCHEMA", render_schema(source, release, assets, lang, is_release))
-    fingerprints = {name: hashlib.sha256((root / "stplayer/assets" / name).read_bytes()).hexdigest()[:12]
-                    for name in ("site.css", "site.js")}
-    for page in root.rglob("*.html"):
-        source = outputs.get(page, page.read_text(encoding="utf-8"))
-        for name, digest in fingerprints.items():
-            source = re.sub(re.escape(name) + r"\?v=[a-f0-9]+", name + "?v=" + digest, source)
-        outputs[page] = source
-    changed = [page for page, content in outputs.items() if page.read_text(encoding="utf-8") != content]
+    for page in (root / "stplayer").rglob("*.html"):
+        outputs.setdefault(page, page.read_text(encoding="utf-8"))
+    privacy = root / "stplayer/privacy/index.html"
+    if privacy in outputs:
+        source = outputs[privacy]
+        controls = {code: {key: LOCALES[code][key] for key in ("themeLight", "themeDark")} for code in LANGUAGES}
+        block = '<script id="privacy-copy" type="application/json">' + json.dumps(controls, ensure_ascii=False).replace('<', '\\u003c') + '</script>'
+        source = re.sub(r'<script id="privacy-copy".*?</script>\n?', '', source, flags=re.S)
+        outputs[privacy] = source.replace('</head>', block + '\n</head>')
+    for page, source in list(outputs.items()):
+        if "/audiobooks/" in str(page):
+            url = Metadata(source).canonical
+            graph = {"@context": "https://schema.org", "@type": "WebPage", "url": url,
+                     "inLanguage": source.split('<html lang="', 1)[1].split('"', 1)[0], "about": {"@id": BASE + "#app"}}
+            source = replace_region(source, "GENERATED SCHEMA", '<script type="application/ld+json">' + json.dumps(graph, ensure_ascii=False).replace('<', '\\u003c') + '</script>')
+        def fingerprint(match):
+            asset = (page.parent / match[2]).resolve()
+            if not asset.is_relative_to(root.resolve()) or not asset.is_file():
+                raise ValueError("Missing local asset: " + match[2])
+            digest = hashlib.sha256(asset.read_bytes()).hexdigest()[:12]
+            return match[1] + match[2] + '?v=' + digest + '"'
+        outputs[page] = re.sub(r'(\b(?:src|href)=")((?:\.\./)*assets/[^"?]+)(?:\?[^" ]*)?"', fingerprint, source)
+    sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for lang in LANGUAGES:
+        for suffix in ("", "audiobooks/", "latest/"):
+            sitemap += '  <url><loc>' + BASE + language_path(lang) + suffix + '</loc></url>\n'
+    outputs[root / "sitemap.xml"] = sitemap + '  <url><loc>' + BASE + 'privacy/</loc></url>\n</urlset>\n'
+    changed = [page for page, content in outputs.items() if not page.is_file() or page.read_text(encoding="utf-8") != content]
     # Validate/render every page before the first write, so bad inputs leave all HTML intact.
     if not check:
         for page in changed:
+            page.parent.mkdir(parents=True, exist_ok=True)
             page.write_text(outputs[page], encoding="utf-8")
     return [str(page.relative_to(root)) for page in changed]
 

@@ -1,0 +1,8 @@
+<main class="latest-page wrap" id="main">
+  <p class="eyebrow">$stable</p><h1>$downloadTitle</h1>
+  <!-- BEGIN GENERATED RELEASE --><!-- END GENERATED RELEASE -->
+  <p class="small" id="release-fallback"><a href="https://github.com/finndebear/finndebear.github.io/releases/latest">$githubFallback <span aria-hidden="true">↗</span></a></p>
+  <section class="release-install"><strong>$installApk</strong><p>$install2Body $updateA</p></section>
+  <section class="release-install"><strong>$backupTitle</strong><p>$backupBody</p><p>$syncBody</p></section>
+  <section class="release-notes-section" aria-labelledby="notes-heading"><p class="eyebrow">$notesLabel</p><h2 id="notes-heading">$notesTitle</h2><div id="release-notes"><!-- BEGIN GENERATED NOTES --><!-- END GENERATED NOTES --></div></section>
+</main>

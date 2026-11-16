@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://finndebear.github.io/stplayer/</loc></url>
-  <url><loc>https://finndebear.github.io/stplayer/ru/</loc></url>
   <url><loc>https://finndebear.github.io/stplayer/audiobooks/</loc></url>
-  <url><loc>https://finndebear.github.io/stplayer/ru/audiobooks/</loc></url>
   <url><loc>https://finndebear.github.io/stplayer/latest/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/de/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/de/audiobooks/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/de/latest/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/es/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/es/audiobooks/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/es/latest/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/fi/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/fi/audiobooks/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/fi/latest/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/fr/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/fr/audiobooks/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/fr/latest/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/ja/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/ja/audiobooks/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/ja/latest/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/nl/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/nl/audiobooks/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/nl/latest/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/pt/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/pt/audiobooks/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/pt/latest/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/ru/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/ru/audiobooks/</loc></url>
   <url><loc>https://finndebear.github.io/stplayer/ru/latest/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/sv/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/sv/audiobooks/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/sv/latest/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/tr/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/tr/audiobooks/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/tr/latest/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/zh/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/zh/audiobooks/</loc></url>
+  <url><loc>https://finndebear.github.io/stplayer/zh/latest/</loc></url>
   <url><loc>https://finndebear.github.io/stplayer/privacy/</loc></url>
 </urlset>

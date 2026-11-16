@@ -10,9 +10,8 @@
     document.documentElement.dataset.theme = theme;
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#071426' : '#f7fafc');
     document.querySelectorAll('[data-theme-toggle]').forEach(button => {
-      const label = document.documentElement.lang === 'ru'
-        ? `Переключить на ${theme === 'dark' ? 'светлую' : 'тёмную'} тему`
-        : `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`;
+      const label = document.documentElement.dataset[theme === 'dark' ? 'themeLight' : 'themeDark'] ||
+        (theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
       button.setAttribute('aria-label', label);
       button.title = label;
     });
@@ -20,6 +19,7 @@
   // Run before styles load to avoid a flash of the wrong theme.
   apply();
   preference.addEventListener('change', apply);
+  document.addEventListener('languagechange', apply);
   window.addEventListener('storage', event => {
     if (event.key === key || event.key === null) {
       chosen = event.newValue === 'dark' || event.newValue === 'light' ? event.newValue : null;

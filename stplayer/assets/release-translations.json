@@ -1,0 +1,96 @@
+{
+  "tag": "0.1.100",
+  "bodySha256": "5c2070584e8195c1163875ccd76dfdc642a39c747bcd93fea84a09ddca997ea0",
+  "translations": {
+    "de": [
+      "Probleme beim Laden der Kataloge behoben.",
+      "Navigation mit der TV-Fernbedienung verbessert.",
+      "Fehlende Buchcover wiederhergestellt; geladene Miniaturen bleiben beim Blättern sichtbar.",
+      "Falsche Buchdetails und fehlende Cover beim Fortsetzen oder bei der Steuerung über verbundene Geräte behoben.",
+      "Wiederherstellung nach verlorenem Zugriff auf einen Bibliotheksordner verbessert.",
+      "Lokale Einstellungsänderungen bleiben beim Zurückrollen einer fehlgeschlagenen Synchronisierung erhalten.",
+      "Das zuletzt gewählte Buch wird nach App-Neustarts für verbundene Wiedergabesteuerungen gespeichert."
+    ],
+    "es": [
+      "Corregidos los problemas de carga de los catálogos.",
+      "Mejorada la navegación con el mando de TV.",
+      "Restauradas las portadas ausentes; las miniaturas cargadas permanecen visibles al explorar.",
+      "Corregidos los datos del libro y las portadas al reanudar o usar controles de reproducción conectados.",
+      "Mejorada la recuperación al perder acceso a una carpeta de la biblioteca.",
+      "Se conservan los cambios locales de ajustes al revertir una sincronización fallida.",
+      "El último libro seleccionado se recuerda tras reiniciar la app para los controles de reproducción conectados."
+    ],
+    "fi": [
+      "Korjattu luetteloiden latausongelmia.",
+      "Parannettu navigointia television kaukosäätimellä.",
+      "Palautettu puuttuvat kansikuvat; ladatut pikkukuvat pysyvät näkyvissä selatessa.",
+      "Korjattu virheellisiä kirjatietoja ja puuttuvia kansikuvia toistoa jatkettaessa ja yhdistetyillä toisto-ohjaimilla.",
+      "Parannettu palautumista, kun kirjastokansion käyttöoikeus menetetään.",
+      "Paikalliset asetusmuutokset säilyvät epäonnistuneen synkronoinnin peruutuksessa.",
+      "Viimeksi valittu kirja muistetaan sovelluksen uudelleenkäynnistyksen jälkeen yhdistettyjä toisto-ohjaimia varten."
+    ],
+    "fr": [
+      "Correction des problèmes de chargement des catalogues.",
+      "Navigation améliorée avec la télécommande TV.",
+      "Rétablissement des couvertures manquantes ; les miniatures chargées restent visibles pendant la navigation.",
+      "Correction des informations et couvertures lors de la reprise ou avec les commandes de lecture connectées.",
+      "Récupération améliorée après la perte d’accès à un dossier de la bibliothèque.",
+      "Les modifications locales des réglages sont préservées lors du retour arrière après un échec de synchronisation.",
+      "Le dernier livre sélectionné est mémorisé après redémarrage pour les commandes de lecture connectées."
+    ],
+    "ja": [
+      "カタログの読み込みに関する問題を修正しました。",
+      "テレビのリモコンでの操作を改善しました。",
+      "見つからない表紙を復元し、読み込んだサムネイルが閲覧中も表示されるようにしました。",
+      "再生の再開時や接続機器からの操作時に、本の情報や表紙が正しく表示されない問題を修正しました。",
+      "ライブラリフォルダへのアクセスが失われた際の復旧を改善しました。",
+      "同期の失敗を取り消す際、端末で変更した設定が保持されるようにしました。",
+      "接続機器からの再生操作に使う、最後に選択した本をアプリの再起動後も記憶します。"
+    ],
+    "nl": [
+      "Problemen met het laden van catalogi opgelost.",
+      "Navigatie met de tv-afstandsbediening verbeterd.",
+      "Ontbrekende boekomslagen hersteld; geladen miniaturen blijven zichtbaar tijdens het bladeren.",
+      "Onjuiste boekgegevens en ontbrekende omslagen bij hervatten of gebruik van gekoppelde afspeelbediening opgelost.",
+      "Herstel verbeterd na verlies van toegang tot een bibliotheekmap.",
+      "Lokale wijzigingen aan instellingen blijven behouden bij het terugdraaien van mislukte synchronisatie.",
+      "Het laatst gekozen boek wordt na app-herstarts onthouden voor gekoppelde afspeelbediening."
+    ],
+    "pt": [
+      "Corrigidos problemas no carregamento dos catálogos.",
+      "Melhorada a navegação com controle remoto de TV.",
+      "Restauradas as capas ausentes; miniaturas carregadas permanecem visíveis durante a navegação.",
+      "Corrigidos dados do livro e capas ao retomar ou usar controles de reprodução conectados.",
+      "Melhorada a recuperação após perder acesso a uma pasta da biblioteca.",
+      "Alterações locais de configurações são preservadas ao reverter uma sincronização malsucedida.",
+      "O último livro selecionado é lembrado após reiniciar o aplicativo para os controles de reprodução conectados."
+    ],
+    "sv": [
+      "Åtgärdat problem med laddning av kataloger.",
+      "Förbättrat navigering med TV-fjärrkontroll.",
+      "Återställt saknade bokomslag; inlästa miniatyrer ligger kvar när du bläddrar.",
+      "Rättat felaktig bokinformation och saknade omslag vid återupptagning och anslutna uppspelningskontroller.",
+      "Förbättrat återställning efter förlorad åtkomst till en biblioteksmapp.",
+      "Lokala inställningsändringar bevaras när en misslyckad synkronisering rullas tillbaka.",
+      "Den senast valda boken sparas efter app-omstarter för anslutna uppspelningskontroller."
+    ],
+    "tr": [
+      "Katalog yükleme sorunları düzeltildi.",
+      "TV kumandasıyla gezinme iyileştirildi.",
+      "Eksik kitap kapakları geri getirildi; yüklenen küçük resimler gezinirken görünür kalıyor.",
+      "Oynatma sürdürülürken veya bağlı oynatma kontrolleri kullanılırken hatalı kitap bilgileri ve eksik kapaklar düzeltildi.",
+      "Kitaplık klasörüne erişim kaybolduğunda kurtarma iyileştirildi.",
+      "Başarısız eşitleme geri alındığında yerel ayar değişiklikleri korunuyor.",
+      "Bağlı oynatma kontrolleri için son seçilen kitap, uygulama yeniden başlatıldıktan sonra da hatırlanıyor."
+    ],
+    "zh": [
+      "修复目录加载问题。",
+      "改进电视遥控器导航。",
+      "恢复缺失的书籍封面，已加载的缩略图在浏览时保持显示。",
+      "修复恢复播放或使用已连接的播放控件时书籍信息错误和封面缺失的问题。",
+      "改进书库文件夹访问权限丢失后的恢复。",
+      "撤销失败的同步时，保留本地设置更改。",
+      "应用重启后，会为已连接的播放控件记住最后选择的书籍。"
+    ]
+  }
+}

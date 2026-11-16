@@ -72,6 +72,11 @@
       else s.className = "";
     }
     document.documentElement.lang = lang;
+    var controls = JSON.parse(document.getElementById("privacy-copy").textContent)[lang];
+    document.documentElement.dataset.themeLight = controls.themeLight;
+    document.documentElement.dataset.themeDark = controls.themeDark;
+    document.querySelector(".policy-brand").href = "/stplayer/" + (lang === "en" ? "" : lang + "/");
+    document.dispatchEvent(new Event("languagechange"));
     document.title = TITLES[lang];
     heading.textContent = HEADINGS[lang];
     label.textContent = LABELS[lang];

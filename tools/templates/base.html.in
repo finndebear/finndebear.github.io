@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="$lang" data-theme-light="$themeLight" data-theme-dark="$themeDark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="fLefP6hZz2AprfX0Y6tvnVMA53exzHkekDN-5WqpMK8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-uWW3XHg+glU/RFDt/3t8anXuCkWBTyfVjb0rseD94d0=' https://www.googletagmanager.com; style-src 'self'; img-src 'self' https://www.googletagmanager.com https://*.google-analytics.com; connect-src 'self' https://api.github.com https://www.googletagmanager.com https://*.google-analytics.com https://*.google.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+$analytics
+  <meta name="theme-color" content="#071426">
+  <title>$pageTitle</title>
+  <meta name="description" content="$pageDescription">
+  <link rel="canonical" href="$canonical">
+$alternates
+  <meta property="og:site_name" content="STPlayer">
+  <meta property="og:title" content="$pageTitle">
+  <meta property="og:description" content="$pageDescription">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="$canonical">
+  <meta property="og:locale" content="$ogLocale">
+  <meta property="og:image" content="https://finndebear.github.io/stplayer/assets/stplayer-icon.png">
+  <meta property="og:image:alt" content="STPlayer">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="$assets/stplayer-icon.webp" type="image/webp">
+  <!-- BEGIN GENERATED SCHEMA --><!-- END GENERATED SCHEMA -->
+  <script src="$assets/theme.js"></script>
+  <link rel="stylesheet" href="$assets/theme.css">
+  <link rel="stylesheet" href="$assets/site.css">
+$extraStyles
+$runtime
+</head>
+<body>
+<a class="skip-link" href="#main">$skip</a>
+<header class="site-header $headerClass wrap">
+  <a class="brand" href="$homeUrl" aria-label="STPlayer — $home"><img src="$assets/stplayer-icon.webp" width="36" height="36" alt="">ST<span>Player</span></a>
+  <div class="header-actions"><nav aria-label="$navigation"><a href="$homeUrl#features">$features</a><a href="/stplayer/privacy/?lang=$lang">$privacy</a>$downloadNavigation</nav>
+$stores
+$languagePicker
+  <button class="theme-toggle" type="button" data-theme-toggle aria-label="$themeLight" title="$themeLight"><svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A9 9 0 0 1 10 3a9 9 0 1 0 10.5 11Z"/></svg></button></div>
+</header>
+$body
+<footer class="site-footer wrap"><div><a class="brand" href="$homeUrl"><img src="$assets/stplayer-icon.webp" width="32" height="32" alt="">ST<span>Player</span></a><p>Stream Transport Player<br><span><a href="mailto:finndebear@gmail.com">$by</a></span></p></div><div class="footer-links"><a href="$guideUrl">$guide</a><a href="$latestUrl">$releaseDetails</a><a href="/stplayer/privacy/?lang=$lang">$privacy</a><a href="mailto:finndebear@gmail.com">$contact</a></div></footer>
+</body>
+</html>

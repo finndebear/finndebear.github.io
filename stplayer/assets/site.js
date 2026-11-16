@@ -8,18 +8,9 @@
   if (!document.querySelector('[data-apk-download], #download-files')) return;
 
   const repository = 'finndebear/finndebear.github.io';
-  const russian = document.documentElement.lang === 'ru';
-  const copy = russian ? {
-    version: 'Версия', download: '↓ Скачать', more: 'Подробности версии', source: 'Источник: релиз',
-    empty: 'Описание версии не опубликовано.', missing: 'Заметки на русском языке для этой версии пока недоступны.',
-    apk: ['Установочный файл Android', 'Установите на телефон или планшет.'],
-    zip: ['ZIP-архив', 'Архив из этого релиза.']
-  } : {
-    version: 'Version', download: '↓ Download', more: 'More release details', source: 'Source: GitHub release',
-    empty: 'No release notes were provided.', missing: 'English release notes are not available for this version.',
-    apk: ['Android installer', 'Install on your phone or tablet.'],
-    zip: ['ZIP archive', 'The archive supplied with this release.']
-  };
+  const language = document.documentElement.lang;
+  const copy = JSON.parse(document.getElementById('release-copy').textContent);
+  const format = (text, version, formats = '') => text.replaceAll('{version}', version).replaceAll('{formats}', formats);
   const element = (tag, text, className) => {
     const node = document.createElement(tag);
     if (text !== undefined) node.textContent = text;
@@ -50,14 +41,16 @@
       : asset);
   }
 
-  function releaseNotes(body) {
-    let lines = (body || '').split(/\r?\n/);
+  function releaseNotes(body, translationMatches) {
+    let lines = language !== 'en' && language !== 'ru'
+      ? (translationMatches ? [copy.summary, ...copy.translation.notes.map(note => `- ${note}`)] : [copy.missing])
+      : (body || '').split(/\r?\n/);
     const sections = lines.flatMap((line, index) => {
       const match = /^##\s+(English|Русский)\s*$/i.exec(line);
       return match ? [{ index, language: match[1].toLowerCase() }] : [];
     });
     if (sections.length) {
-      const index = sections.findIndex(section => section.language === (russian ? 'русский' : 'english'));
+      const index = sections.findIndex(section => section.language === (language === 'ru' ? 'русский' : 'english'));
       lines = index < 0 ? [copy.missing] : lines.slice(sections[index].index + 1, sections[index + 1]?.index);
     }
     const fragment = document.createDocumentFragment();
@@ -84,7 +77,7 @@
     return fragment;
   }
 
-  function displayRelease(release, assets) {
+  function displayRelease(release, assets, translationMatches) {
     const apk = assets[0];
     document.querySelectorAll('[data-apk-download]').forEach(link => { link.href = apk.browser_download_url; });
     document.querySelectorAll('[data-version-label]').forEach(label => {
@@ -101,20 +94,18 @@
           element('p', copy[format][1]), link, element('p', `${asset.name} · ${size(asset)}`, 'small'));
         return card;
       });
-      const notes = releaseNotes(release.body);
+      const notes = releaseNotes(release.body, translationMatches);
       const source = element('p', undefined, 'small release-source');
-      const sourceLink = element('a', `${copy.source} ${release.tag_name}${russian ? ' на GitHub' : ''}`);
+      const sourceLink = element('a', format(copy.source, release.tag_name));
       sourceLink.href = `https://github.com/${repository}/releases/tag/${release.tag_name}`;
       source.append(sourceLink);
       notes.append(source);
       downloads.replaceChildren(...cards);
-      document.getElementById('release-title').textContent = `${copy.version} ${release.tag_name} · Android 8.0+`;
+      document.getElementById('release-title').textContent = format(copy.version, release.tag_name);
       document.getElementById('release-notes').replaceChildren(notes);
-      document.title = russian ? `Скачать STPlayer ${release.tag_name} APK для Android` : `Download STPlayer ${release.tag_name} APK for Android`;
-      const formats = russian ? (assets.length > 1 ? 'APK или ZIP' : 'APK') : (assets.length > 1 ? 'APK installer or ZIP archive' : 'APK installer');
-      const description = russian
-        ? `Скачайте STPlayer ${release.tag_name} для Android 8.0+: ${formats}. Бесплатный плеер аудиокниг: онлайн-каталоги, MP3, M4B и прослушивание без интернета.`
-        : `Download STPlayer ${release.tag_name} for Android 8.0+: ${formats}. Free audiobook player for online catalogs, MP3, M4B and offline listening.`;
+      document.title = format(copy.title, release.tag_name);
+      const formats = assets.map(asset => asset.name.split('.').pop().toUpperCase()).join(' / ');
+      const description = format(copy.description, release.tag_name, formats);
       document.querySelector('meta[name="description"]').content = description;
       document.querySelector('meta[property="og:description"]').content = description;
       document.querySelector('meta[property="og:title"]').content = document.title;
@@ -139,7 +130,16 @@
       if (!response.ok) throw new Error('Release lookup failed');
       return response.json();
     })
-    .then(release => displayRelease(release, releaseAssets(release)))
+    .then(async release => {
+      const assets = releaseAssets(release);
+      let translationMatches = false;
+      if (language !== 'en' && language !== 'ru' && release.tag_name === copy.translation?.tag) {
+        const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(release.body || ''));
+        const hex = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+        translationMatches = hex === copy.translation.bodySha256;
+      }
+      displayRelease(release, assets, translationMatches);
+    })
     // The checked-in release remains usable offline or when GitHub rate-limits requests.
     .catch(() => {})
     .finally(() => clearTimeout(timeout));

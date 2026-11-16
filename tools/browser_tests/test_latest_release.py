@@ -141,7 +141,7 @@ class LatestReleaseBrowserTest(unittest.TestCase):
         self.assertGreater(page.locator('#release-notes li').count(), 0)
         self.assertTrue(page.locator('#release-fallback a').is_visible())
 
-    def test_homepage_illustration_has_equal_dimensions_in_both_languages(self):
+    def test_homepage_icon_and_waves_keep_equal_dimensions_without_overflow(self):
         for width in (320, 390, 768, 900, 1024, 1050, 1051, 1280, 1440):
             dimensions = []
             for path in ('/stplayer/', '/stplayer/ru/'):
@@ -154,18 +154,24 @@ class LatestReleaseBrowserTest(unittest.TestCase):
                                 return [bounds.width, bounds.height];
                             })'''))
                     self.assertGreater(page.locator('.hero-icon').evaluate('image => image.naturalWidth'), 0)
+                    self.assertEqual(1, page.locator('.soundwave').count())
+                    self.assertEqual(2, page.locator('.sound-ring').count())
+                    self.assertEqual(0, page.locator('.player-screen').count())
+                    self.assertEqual(3, page.locator('#features article.feature').count())
                     self.assertFalse(page.evaluate('document.documentElement.scrollWidth > innerWidth'))
                     page.close()
             with self.subTest(width=width):
                 self.assertEqual(dimensions[0], dimensions[1])
 
     def test_store_badges_are_localized_svg_and_rustore_follows_google_only_in_russian(self):
-        for language, path in (('en', '/stplayer/latest/'), ('ru', '/stplayer/ru/latest/')):
-            for width in (320, 390, 1280):
+        for language in json.loads((ROOT / 'stplayer/assets/locales.json').read_text()):
+            path = '/stplayer/' + ('' if language == 'en' else language + '/') + 'latest/'
+            for width in (320, 390, 768, 900, 1024, 1280):
                 with self.subTest(language=language, width=width):
                     page = self.open(path, width=width)
                     google = page.locator('.play-store-link img')
                     self.assertIn(f'google-play-badge-{language}.svg', google.get_attribute('src'))
+                    self.assertEqual(0, page.locator('header .nav-download').count())
                     self.assertTrue(google.is_visible())
                     self.assertGreater(google.evaluate('image => image.naturalWidth'), 0)
                     self.assertEqual(40, google.bounding_box()['height'])
@@ -177,6 +183,94 @@ class LatestReleaseBrowserTest(unittest.TestCase):
                         self.assertIn('rustore-badge.svg', stores.nth(1).locator('img').get_attribute('src'))
                         self.assertEqual(40, stores.nth(1).locator('img').bounding_box()['height'])
                     self.assertFalse(page.evaluate('document.documentElement.scrollWidth > innerWidth'))
+                    page.close()
+
+    def test_all_twelve_languages_work_on_mobile_and_desktop_without_javascript(self):
+        locales = json.loads((ROOT / 'stplayer/assets/locales.json').read_text())
+        context = self.browser.new_context(java_script_enabled=False)
+        self.addCleanup(context.close)
+        for language, text in locales.items():
+            prefix = '/stplayer/' + ('' if language == 'en' else language + '/')
+            for suffix in ('', 'audiobooks/', 'latest/'):
+                for width in (320, 1280):
+                    with self.subTest(language=language, suffix=suffix, width=width):
+                        page = context.new_page()
+                        page.set_viewport_size({'width': width, 'height': 900})
+                        page.goto(self.base + prefix + suffix)
+                        self.assertEqual(language, page.locator('html').get_attribute('lang'))
+                        self.assertEqual(1, page.locator('h1').count())
+                        self.assertFalse(page.evaluate('document.documentElement.scrollWidth > innerWidth'))
+                        navigation = page.locator('header nav:not(.language-options)')
+                        self.assertEqual(1, navigation.locator('a[href="/stplayer/privacy/?lang=' + language + '"]').count())
+                        self.assertEqual(0, navigation.locator('a[href$="audiobooks/"]').count())
+                        picker = page.locator('.language-picker')
+                        picker.locator('summary').click()
+                        self.assertEqual(12, picker.locator('a').count())
+                        self.assertEqual(12, picker.locator('a span[aria-hidden="true"]').count())
+                        self.assertEqual(text['flag'], picker.locator('summary span').text_content())
+                        self.assertEqual(text['flag'], picker.locator('summary').inner_text().strip())
+                        self.assertIn(text['name'], picker.locator('summary').get_attribute('aria-label'))
+                        self.assertTrue(picker.locator('[aria-current="page"]').is_visible())
+                        for link in picker.locator('a').all():
+                            code = link.get_attribute('hreflang')
+                            expected = '/stplayer/' + ('' if code == 'en' else code + '/') + suffix
+                            self.assertEqual(expected, link.get_attribute('href'))
+                            self.assertIn(locales[code]['name'], link.inner_text())
+                        self.assertFalse(page.evaluate('document.documentElement.scrollWidth > innerWidth'))
+                        if suffix == 'latest/':
+                            self.assertEqual(2, page.locator('#download-files a').count())
+                            self.assertIn(text['notesTitle'], page.locator('#notes-heading').text_content())
+                            self.assertGreater(page.locator('#release-notes li').count(), 0)
+                        page.close()
+
+    def test_latest_release_metadata_remains_localized_in_every_language(self):
+        locales = json.loads((ROOT / 'stplayer/assets/locales.json').read_text())
+        for language, text in locales.items():
+            with self.subTest(language=language):
+                prefix = '/stplayer/' + ('' if language == 'en' else language + '/')
+                page = self.open(prefix + 'latest/')
+                self.assertEqual(text['downloadPageTitle'].format(version='9.8.7'), page.title())
+                self.assertIn(text['apkTitle'], page.locator('.format-apk h2').text_content())
+                self.assertIn(text['version'].format(version='9.8.7'), page.locator('#release-title').text_content())
+                if language not in ('en', 'ru'):
+                    self.assertIn(text['missingNotes'], page.locator('#release-notes').text_content())
+                page.close()
+
+    def test_translated_notes_are_bound_to_both_version_and_original_body(self):
+        current = json.loads((ROOT / 'stplayer/assets/latest-release.json').read_text())
+        locales = json.loads((ROOT / 'stplayer/assets/locales.json').read_text())
+        for language in set(locales) - {'en', 'ru'}:
+            for altered in (False, True):
+                with self.subTest(language=language, altered=altered):
+                    release = dict(current, body=current['body'] + (' edited' if altered else ''))
+                    page = self.open('/stplayer/' + language + '/latest/', release=release)
+                    notes = page.locator('#release-notes')
+                    if altered:
+                        self.assertIn(locales[language]['missingNotes'], notes.text_content())
+                        self.assertEqual(0, notes.locator('li').count())
+                    else:
+                        self.assertIn(locales[language]['translatedSummary'], notes.text_content())
+                        self.assertEqual(7, notes.locator('li').count())
+                    page.close()
+
+    def test_theme_and_privacy_navigation_follow_each_selected_language(self):
+        locales = json.loads((ROOT / 'stplayer/assets/locales.json').read_text())
+        for language, text in locales.items():
+            prefix = '/stplayer/' + ('' if language == 'en' else language + '/')
+            for path in (prefix, '/stplayer/privacy/?lang=' + language):
+                with self.subTest(language=language, path=path):
+                    page = self.open(path)
+                    toggle = page.locator('[data-theme-toggle]')
+                    for _ in range(2):
+                        dark = page.locator('html').get_attribute('data-theme') == 'dark'
+                        self.assertEqual(text['themeLight' if dark else 'themeDark'], toggle.get_attribute('aria-label'))
+                        toggle.click()
+                        self.assertEqual('light' if dark else 'dark', page.locator('html').get_attribute('data-theme'))
+                    if '/privacy/' in path:
+                        self.assertEqual(language, page.locator('html').get_attribute('lang'))
+                        self.assertEqual(prefix, page.locator('.policy-brand').get_attribute('href'))
+                        self.assertEqual(1, page.locator('section.on').count())
+                        self.assertIn(text['flag'], page.locator('#lang option:checked').text_content())
                     page.close()
 
 

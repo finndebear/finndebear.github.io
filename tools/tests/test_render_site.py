@@ -6,6 +6,7 @@ import re
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -19,12 +20,7 @@ class StaticSiteTest(unittest.TestCase):
         self.directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.directory.cleanup)
         self.root = Path(self.directory.name)
-        files = [filename for filename, _, _ in site.PAGES]
-        files += ["stplayer/assets/" + name for name in ("latest-release.json", "site.css", "site.js")]
-        for filename in files:
-            target = self.root / filename
-            target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(ROOT / filename, target)
+        shutil.copytree(ROOT, self.root, dirs_exist_ok=True, ignore=shutil.ignore_patterns('__pycache__'))
         self.snapshot = self.root / "stplayer/assets/latest-release.json"
         self.release = json.loads(self.snapshot.read_text())
 
@@ -32,7 +28,7 @@ class StaticSiteTest(unittest.TestCase):
         self.snapshot.write_text(json.dumps(release, ensure_ascii=False))
 
     def page(self, lang="en", release=False):
-        return self.root / ("stplayer/" + ("ru/" if lang == "ru" else "") + ("latest/" if release else "") + "index.html")
+        return self.root / ("stplayer/" + site.language_path(lang) + ("latest/" if release else "") + "index.html")
 
     def test_current_snapshot_is_rendered_and_idempotent(self):
         self.assertEqual([], site.render_site(self.root, check=True))
@@ -47,11 +43,11 @@ class StaticSiteTest(unittest.TestCase):
             asset["browser_download_url"] = asset["browser_download_url"].replace(old_tag, newer["tag_name"])
         self.write_release(newer)
         originals = {filename: (self.root / filename).read_bytes() for filename, _, _ in site.PAGES}
-        self.assertEqual(4, len(site.render_site(self.root, check=True)))
+        self.assertEqual(24, len(site.render_site(self.root, check=True)))
         for filename, original in originals.items():
             self.assertEqual(original, (self.root / filename).read_bytes())
-        self.assertEqual(4, len(site.render_site(self.root)))
-        for lang in ("en", "ru"):
+        self.assertEqual(24, len(site.render_site(self.root)))
+        for lang in site.LANGUAGES:
             for release_page in (False, True):
                 source = self.page(lang, release_page).read_text()
                 self.assertIn('"softwareVersion": "9.8.7"', source)
@@ -117,7 +113,7 @@ class StaticSiteTest(unittest.TestCase):
             site.validate_release(invalid)
 
     def test_missing_region_leaves_other_pages_intact(self):
-        page = self.page("ru", True)
+        page = self.root / "tools/templates/latest.html.in"
         page.write_text(page.read_text().replace("<!-- END GENERATED NOTES -->", ""))
         originals = {filename: (self.root / filename).read_bytes() for filename, _, _ in site.PAGES}
         with self.assertRaises(ValueError):
@@ -146,16 +142,16 @@ class StaticSiteTest(unittest.TestCase):
 
     def test_empty_notes_use_a_localized_fallback(self):
         for body in (None, ""):
-            for lang in ("en", "ru"):
+            for lang in site.LANGUAGES:
                 release = dict(self.release, body=body)
                 site.validate_release(release)
-                self.assertIn(site.COPY[lang]["no_notes"], site.render_notes(release, lang))
+                self.assertIn(site.COPY[lang]["no_notes" if lang in ("en", "ru") else "missing_translation"], site.render_notes(release, lang))
 
     def test_apk_only_release_does_not_advertise_a_zip(self):
         self.release["assets"] = [asset for asset in self.release["assets"] if asset["name"].endswith(".apk")]
         self.write_release(self.release)
         site.render_site(self.root)
-        for lang in ("en", "ru"):
+        for lang in site.LANGUAGES:
             source = self.page(lang, True).read_text()
             self.assertEqual(1, source.count('class="release-download-card'))
             self.assertNotIn('format-zip', source)
@@ -184,7 +180,7 @@ class StaticSiteTest(unittest.TestCase):
                 self.assertEqual(original_assets, assets, "Selection must not rewrite release metadata")
                 self.write_release(release)
                 site.render_site(self.root)
-                for lang in ("en", "ru"):
+                for lang in site.LANGUAGES:
                     for release_page in (False, True):
                         source = self.page(lang, release_page).read_text()
                         schema = json.loads(re.search(
@@ -210,6 +206,34 @@ class StaticSiteTest(unittest.TestCase):
             self.assertIn('hreflang="ru" href="' + site.BASE + 'ru/"', source)
             self.assertIn('"price": 0', source)
             self.assertNotIn('"aggregateRating"', source)
+
+    def test_translated_notes_never_outlive_their_original_release(self):
+        for lang in set(site.LANGUAGES) - {'en', 'ru'}:
+            with self.subTest(lang=lang):
+                self.assertIn(site.LOCALES[lang]['translatedSummary'], site.render_notes(self.release, lang))
+                for changed in (dict(self.release, tag_name='9.8.7'), dict(self.release, body=self.release['body'] + ' edited')):
+                    rendered = site.render_notes(changed, lang)
+                    self.assertIn(site.COPY[lang]['missing_translation'], rendered)
+                    self.assertNotIn('<li>', rendered)
+
+    def test_all_locales_have_the_same_complete_translation_keys(self):
+        self.assertEqual(set(site.LANGUAGES), set(site.LOCALES))
+        for language, text in site.LOCALES.items():
+            with self.subTest(language=language):
+                self.assertEqual(set(site.LOCALES['en']), set(text))
+                self.assertTrue(all(value.strip() for value in text.values()))
+                self.assertEqual({'version'}, set(__import__('re').findall(r'\{(\w+)\}', text['downloadPageTitle'])))
+                self.assertEqual({'version', 'formats'}, set(__import__('re').findall(r'\{(\w+)\}', text['downloadPageDescription'])))
+
+    def test_inline_locale_json_cannot_terminate_its_script_element(self):
+        malicious = '</script><script>window.injected = true</script>'
+        with patch.dict(site.LOCALES['en'], downloadPageTitle=malicious):
+            pages = site.render_layouts(self.root)
+        page = pages[self.root / 'stplayer/latest/index.html']
+        raw = __import__('re').search(r'<script id="release-copy" type="application/json">(.*?)</script>', page, __import__('re').S).group(1)
+        self.assertNotIn('<', raw)
+        self.assertEqual(malicious, json.loads(raw)['title'])
+        self.assertNotIn(malicious, page)
 
 
 if __name__ == "__main__":
