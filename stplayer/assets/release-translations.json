@@ -1,96 +1,86 @@
 {
-  "tag": "0.1.100",
-  "bodySha256": "5c2070584e8195c1163875ccd76dfdc642a39c747bcd93fea84a09ddca997ea0",
+  "tag": "0.1.101",
+  "bodySha256": "6b2930c643abfb2a60afd6cc45d2b8c1191619352f27e1f0168a22fe33e4a2ee",
   "translations": {
     "de": [
-      "Probleme beim Laden der Kataloge behoben.",
-      "Navigation mit der TV-Fernbedienung verbessert.",
-      "Fehlende Buchcover wiederhergestellt; geladene Miniaturen bleiben beim Blättern sichtbar.",
-      "Falsche Buchdetails und fehlende Cover beim Fortsetzen oder bei der Steuerung über verbundene Geräte behoben.",
-      "Wiederherstellung nach verlorenem Zugriff auf einen Bibliotheksordner verbessert.",
-      "Lokale Einstellungsänderungen bleiben beim Zurückrollen einer fehlgeschlagenen Synchronisierung erhalten.",
-      "Das zuletzt gewählte Buch wird nach App-Neustarts für verbundene Wiedergabesteuerungen gespeichert."
+      "Synchronisierung und Sicherungen bewahren beide Ausgaben, wenn sich zwei Kopien eines Buchs nicht sicher zuordnen lassen. Lesezeichen und Hörposition bleiben erhalten. Andere Bücher werden weiter synchronisiert.",
+      "Ausstehende Änderungen können nach einer unterbrochenen Übertragung erneut gesendet werden. Ein Gerät mit einer vollständigen Bibliothek kann eine unvollständige Serverkopie ergänzen.",
+      "Lange Hörbücher werden zuverlässiger im gespeicherten Kapitel fortgesetzt. Wer die Buchseite während der Vorbereitung verlässt, bricht den Wiedergabestart ab.",
+      "Mehr Onlinebücher bieten Hörproben. In betroffenen Katalogen werden auch Kapitel ohne Laufzeit angezeigt.",
+      "Buchdetails, Untertitel und Bedienelemente des Miniplayers bleiben bei großer Schrift lesbar. Lange Titel in der Suche können zwei Zeilen belegen.",
+      "Sicherungen mit nicht eindeutig zugeordneten Buchkopien lassen sich ab STPlayer 0.1.101 wiederherstellen."
     ],
     "es": [
-      "Corregidos los problemas de carga de los catálogos.",
-      "Mejorada la navegación con el mando de TV.",
-      "Restauradas las portadas ausentes; las miniaturas cargadas permanecen visibles al explorar.",
-      "Corregidos los datos del libro y las portadas al reanudar o usar controles de reproducción conectados.",
-      "Mejorada la recuperación al perder acceso a una carpeta de la biblioteca.",
-      "Se conservan los cambios locales de ajustes al revertir una sincronización fallida.",
-      "El último libro seleccionado se recuerda tras reiniciar la app para los controles de reproducción conectados."
+      "La sincronización y las copias de seguridad conservan ambas ediciones cuando dos copias del mismo libro no se pueden identificar con certeza. Cada una mantiene sus marcadores y su posición de escucha. Los demás libros se siguen sincronizando.",
+      "Los cambios pendientes se pueden enviar tras una interrupción. Un dispositivo con la biblioteca completa puede reparar una copia incompleta del servidor.",
+      "Los audiolibros largos se reanudan con más fiabilidad en el capítulo guardado. Si sales de la ficha del libro mientras se prepara el audio, se cancela el inicio.",
+      "Hay muestras de audio en más libros en línea. En los catálogos afectados también aparecen los capítulos de duración desconocida.",
+      "Con letra grande se leen mejor los datos del libro, los subtítulos de la barra superior y los controles del minirreproductor. Los títulos largos pueden ocupar dos líneas en la búsqueda.",
+      "Las copias de seguridad con dos versiones de un mismo libro en conflicto requieren STPlayer 0.1.101 o posterior."
     ],
     "fi": [
-      "Korjattu luetteloiden latausongelmia.",
-      "Parannettu navigointia television kaukosäätimellä.",
-      "Palautettu puuttuvat kansikuvat; ladatut pikkukuvat pysyvät näkyvissä selatessa.",
-      "Korjattu virheellisiä kirjatietoja ja puuttuvia kansikuvia toistoa jatkettaessa ja yhdistetyillä toisto-ohjaimilla.",
-      "Parannettu palautumista, kun kirjastokansion käyttöoikeus menetetään.",
-      "Paikalliset asetusmuutokset säilyvät epäonnistuneen synkronoinnin peruutuksessa.",
-      "Viimeksi valittu kirja muistetaan sovelluksen uudelleenkäynnistyksen jälkeen yhdistettyjä toisto-ohjaimia varten."
+      "Synkronointi ja varmuuskopiot säilyttävät molemmat painokset, jos saman kirjan kahta kopiota ei voida varmasti tunnistaa samaksi painokseksi. Kummankin kirjanmerkit ja kuuntelukohta säilyvät, ja muut kirjat synkronoituvat edelleen.",
+      "Keskeneräisen lähetyksen muutokset voidaan lähettää uudelleen. Laite, jolla on koko kirjasto, voi korjata palvelimen puutteellisen kopion.",
+      "Pitkien äänikirjojen toisto jatkuu varmemmin tallennetusta luvusta. Kirjan sivulta poistuminen peruuttaa vielä valmisteilla olevan toiston.",
+      "Useammasta verkkokirjasta on kuunneltavissa näyte. Osassa luetteloista näytetään myös luvut, joiden kestoa ei tiedetä.",
+      "Kirjan tiedot, yläpalkin alaotsikot ja minisoittimen säätimet näkyvät paremmin suurella tekstikoolla. Pitkät hakutulosten otsikot voivat jakautua kahdelle riville.",
+      "Varmuuskopio, jossa on keskenään ristiriitaisia kirjakopioita, edellyttää STPlayerin versiota 0.1.101 tai uudempaa."
     ],
     "fr": [
-      "Correction des problèmes de chargement des catalogues.",
-      "Navigation améliorée avec la télécommande TV.",
-      "Rétablissement des couvertures manquantes ; les miniatures chargées restent visibles pendant la navigation.",
-      "Correction des informations et couvertures lors de la reprise ou avec les commandes de lecture connectées.",
-      "Récupération améliorée après la perte d’accès à un dossier de la bibliothèque.",
-      "Les modifications locales des réglages sont préservées lors du retour arrière après un échec de synchronisation.",
-      "Le dernier livre sélectionné est mémorisé après redémarrage pour les commandes de lecture connectées."
+      "La synchronisation et les sauvegardes conservent les deux éditions lorsque deux copies d’un livre ne peuvent pas être rapprochées avec certitude. Chacune garde ses signets et sa position d’écoute. Les autres livres continuent de se synchroniser.",
+      "Les modifications en attente peuvent être renvoyées après une interruption. Un appareil qui possède la bibliothèque complète peut réparer une copie incomplète sur le serveur.",
+      "Les livres audio longs reprennent plus sûrement au chapitre enregistré. Quitter la fiche du livre pendant la préparation annule le démarrage de la lecture.",
+      "Davantage de livres en ligne proposent un extrait audio. Dans les catalogues concernés, les chapitres de durée inconnue s’affichent aussi.",
+      "En gros caractères, la fiche du livre, les sous-titres de la barre supérieure et les commandes du mini-lecteur restent lisibles. Les titres longs peuvent occuper deux lignes dans les résultats.",
+      "La restauration d’une sauvegarde contenant des versions en conflit d’un même livre nécessite STPlayer 0.1.101 ou une version ultérieure."
     ],
     "ja": [
-      "カタログの読み込みに関する問題を修正しました。",
-      "テレビのリモコンでの操作を改善しました。",
-      "見つからない表紙を復元し、読み込んだサムネイルが閲覧中も表示されるようにしました。",
-      "再生の再開時や接続機器からの操作時に、本の情報や表紙が正しく表示されない問題を修正しました。",
-      "ライブラリフォルダへのアクセスが失われた際の復旧を改善しました。",
-      "同期の失敗を取り消す際、端末で変更した設定が保持されるようにしました。",
-      "接続機器からの再生操作に使う、最後に選択した本をアプリの再起動後も記憶します。"
+      "同じ本の2つのコピーが同じ版だと確認できない場合、同期とバックアップでは両方の版を保持します。それぞれのしおりと再生位置が保持され、ほかの本の同期も続きます。",
+      "送信が中断されても保留中の変更を再送できます。ライブラリの完全なコピーがある端末から、サーバー上の不完全なコピーを修復できます。",
+      "長いオーディオブックは保存した章からより確実に再開します。再生準備中に本のページを離れると、再生の開始が取り消されます。",
+      "試聴できるオンライン書籍が増えました。一部のカタログでは再生時間が不明な章も表示されます。",
+      "文字サイズを大きくしても、本の詳細、上部バーのサブタイトル、ミニプレーヤーの操作ボタンが読みやすくなりました。検索結果の長いタイトルは2行に折り返せます。",
+      "同じ本の競合するコピーを含むバックアップを復元するには、STPlayer 0.1.101以降が必要です。"
     ],
     "nl": [
-      "Problemen met het laden van catalogi opgelost.",
-      "Navigatie met de tv-afstandsbediening verbeterd.",
-      "Ontbrekende boekomslagen hersteld; geladen miniaturen blijven zichtbaar tijdens het bladeren.",
-      "Onjuiste boekgegevens en ontbrekende omslagen bij hervatten of gebruik van gekoppelde afspeelbediening opgelost.",
-      "Herstel verbeterd na verlies van toegang tot een bibliotheekmap.",
-      "Lokale wijzigingen aan instellingen blijven behouden bij het terugdraaien van mislukte synchronisatie.",
-      "Het laatst gekozen boek wordt na app-herstarts onthouden voor gekoppelde afspeelbediening."
+      "Synchronisatie en back-ups bewaren beide edities als twee exemplaren van hetzelfde boek niet met zekerheid overeenkomen. Elk behoudt zijn bladwijzers en luisterpositie. Andere boeken blijven synchroniseren.",
+      "Wijzigingen die nog niet zijn verzonden, kunnen na een onderbreking alsnog worden verstuurd. Een apparaat met de volledige bibliotheek kan een onvolledige serverkopie herstellen.",
+      "Lange luisterboeken worden betrouwbaarder hervat in het opgeslagen hoofdstuk. Wie de boekpagina verlaat voordat de audio klaar is, annuleert het starten van de weergave.",
+      "Meer online boeken bieden luisterfragmenten. In de betrokken catalogi worden ook hoofdstukken met een onbekende duur getoond.",
+      "Boekdetails, ondertitels in de bovenste balk en bediening van de minispeler blijven leesbaar bij grote tekst. Lange titels in zoekresultaten kunnen twee regels beslaan.",
+      "Voor herstel van back-ups met conflicterende kopieën van een boek is STPlayer 0.1.101 of nieuwer vereist."
     ],
     "pt": [
-      "Corrigidos problemas no carregamento dos catálogos.",
-      "Melhorada a navegação com controle remoto de TV.",
-      "Restauradas as capas ausentes; miniaturas carregadas permanecem visíveis durante a navegação.",
-      "Corrigidos dados do livro e capas ao retomar ou usar controles de reprodução conectados.",
-      "Melhorada a recuperação após perder acesso a uma pasta da biblioteca.",
-      "Alterações locais de configurações são preservadas ao reverter uma sincronização malsucedida.",
-      "O último livro selecionado é lembrado após reiniciar o aplicativo para os controles de reprodução conectados."
+      "A sincronização e as cópias de segurança preservam ambas as edições quando não é possível confirmar que duas cópias do mesmo livro correspondem à mesma edição. Cada uma conserva os marcadores e a posição de escuta. Os restantes livros continuam a sincronizar.",
+      "As alterações pendentes podem ser enviadas após uma interrupção. Um dispositivo com a biblioteca completa pode reparar uma cópia incompleta no servidor.",
+      "Os audiolivros longos retomam com maior fiabilidade no capítulo guardado. Sair da página do livro enquanto o áudio está a ser preparado cancela o início da reprodução.",
+      "Há excertos disponíveis em mais livros online. Nos catálogos afetados, também aparecem capítulos de duração desconhecida.",
+      "Com letra grande, os detalhes do livro, os subtítulos da barra superior e os controlos do minileitor mantêm-se legíveis. Os títulos longos na pesquisa podem ocupar duas linhas.",
+      "O restauro de cópias de segurança com versões em conflito do mesmo livro requer o STPlayer 0.1.101 ou posterior."
     ],
     "sv": [
-      "Åtgärdat problem med laddning av kataloger.",
-      "Förbättrat navigering med TV-fjärrkontroll.",
-      "Återställt saknade bokomslag; inlästa miniatyrer ligger kvar när du bläddrar.",
-      "Rättat felaktig bokinformation och saknade omslag vid återupptagning och anslutna uppspelningskontroller.",
-      "Förbättrat återställning efter förlorad åtkomst till en biblioteksmapp.",
-      "Lokala inställningsändringar bevaras när en misslyckad synkronisering rullas tillbaka.",
-      "Den senast valda boken sparas efter app-omstarter för anslutna uppspelningskontroller."
+      "Synkronisering och säkerhetskopiering bevarar båda utgåvorna om två exemplar av samma bok inte säkert kan paras ihop. Bokmärken och lyssningsposition sparas för varje utgåva. Övriga böcker fortsätter att synkroniseras.",
+      "Ändringar som väntar på att skickas kan överföras efter ett avbrott. En enhet med hela biblioteket kan reparera en ofullständig serverkopia.",
+      "Långa ljudböcker fortsätter oftare i rätt kapitel. Om du lämnar boksidan medan uppspelningen förbereds avbryts starten.",
+      "Fler böcker på nätet har provlyssning. I berörda kataloger visas även kapitel med okänd längd.",
+      "Bokdetaljer, underrubriker och minispelarens knappar är lättare att läsa med stor text. Långa titlar i sökresultaten kan visas på två rader.",
+      "Säkerhetskopior med motstridiga kopior av en bok kräver STPlayer 0.1.101 eller senare vid återställning."
     ],
     "tr": [
-      "Katalog yükleme sorunları düzeltildi.",
-      "TV kumandasıyla gezinme iyileştirildi.",
-      "Eksik kitap kapakları geri getirildi; yüklenen küçük resimler gezinirken görünür kalıyor.",
-      "Oynatma sürdürülürken veya bağlı oynatma kontrolleri kullanılırken hatalı kitap bilgileri ve eksik kapaklar düzeltildi.",
-      "Kitaplık klasörüne erişim kaybolduğunda kurtarma iyileştirildi.",
-      "Başarısız eşitleme geri alındığında yerel ayar değişiklikleri korunuyor.",
-      "Bağlı oynatma kontrolleri için son seçilen kitap, uygulama yeniden başlatıldıktan sonra da hatırlanıyor."
+      "Aynı kitabın iki kopyası güvenle eşleştirilemiyorsa eşitleme ve yedekleme her iki baskıyı da korur. Her baskının yer işaretleri ve dinleme konumu ayrı kalır. Diğer kitaplar eşitlenmeye devam eder.",
+      "Kesinti sonrasında bekleyen değişiklikler yeniden gönderilebilir. Kitaplığın tam kopyasına sahip bir cihaz sunucudaki eksik kopyayı onarabilir.",
+      "Uzun sesli kitaplar kayıtlı bölümden daha güvenilir biçimde devam eder. Ses hazırlanırken kitap sayfasından ayrılmak oynatmayı başlatma işlemini iptal eder.",
+      "Daha fazla çevrimiçi kitap için sesli örnekler var. İlgili kataloglarda süresi bilinmeyen bölümler de görüntülenir.",
+      "Büyük yazı boyutunda kitap ayrıntıları, üst çubuğun alt başlıkları ve mini oynatıcı düğmeleri okunabilir kalır. Uzun arama sonucu başlıkları iki satıra yayılabilir.",
+      "Aynı kitabın çakışan kopyalarını içeren yedekleri geri yüklemek için STPlayer 0.1.101 veya üzeri gerekir."
     ],
     "zh": [
-      "修复目录加载问题。",
-      "改进电视遥控器导航。",
-      "恢复缺失的书籍封面，已加载的缩略图在浏览时保持显示。",
-      "修复恢复播放或使用已连接的播放控件时书籍信息错误和封面缺失的问题。",
-      "改进书库文件夹访问权限丢失后的恢复。",
-      "撤销失败的同步时，保留本地设置更改。",
-      "应用重启后，会为已连接的播放控件记住最后选择的书籍。"
+      "无法确认同一本书的两份副本属于同一版本时，同步和备份会保留两个版本及各自的书签和收听进度，其他书籍仍可继续同步。",
+      "上传中断后，可以重新发送尚未同步的更改。拥有完整书库的设备可以修复服务器上的不完整副本。",
+      "较长的有声书可以更可靠地从已保存的章节继续播放。在准备播放时离开书籍页面会取消启动。",
+      "更多在线书籍提供试听。部分书库中，即使章节时长未知，也会显示该章节。",
+      "使用大字号时，书籍详情、顶部栏副标题和迷你播放器按钮仍清晰可读。搜索结果中的长书名可以显示为两行。",
+      "还原包含同一本书冲突副本的备份需要 STPlayer 0.1.101 或更高版本。"
     ]
   }
 }
