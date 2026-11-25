@@ -246,6 +246,7 @@ class LatestReleaseBrowserTest(unittest.TestCase):
     def test_translated_notes_are_bound_to_both_version_and_original_body(self):
         current = json.loads((ROOT / 'stplayer/assets/latest-release.json').read_text())
         locales = json.loads((ROOT / 'stplayer/assets/locales.json').read_text())
+        translated = json.loads((ROOT / 'stplayer/assets/release-translations.json').read_text())['translations']
         for language in set(locales) - {'en', 'ru'}:
             for altered in (False, True):
                 with self.subTest(language=language, altered=altered):
@@ -257,7 +258,7 @@ class LatestReleaseBrowserTest(unittest.TestCase):
                         self.assertEqual(0, notes.locator('li').count())
                     else:
                         self.assertIn(locales[language]['translatedSummary'], notes.text_content())
-                        self.assertEqual(7, notes.locator('li').count())
+                        self.assertEqual(translated[language], notes.locator('li').all_text_contents())
                     page.close()
 
     def test_theme_and_privacy_navigation_follow_each_selected_language(self):
